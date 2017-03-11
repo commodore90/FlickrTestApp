@@ -12,6 +12,9 @@ struct flickrOauthParams {
     
 }
 
+/*
+    Flickr Enumerations
+*/
 enum RequestMethod: String {
     case GET    = "GET"
     case POST   = "POST"
@@ -25,6 +28,14 @@ enum ResponseFormat: String {
     case TEXT = "TEXT"
 }
 
+enum AsyncResult<T> {
+    case Sucess(T);
+    case Failure(Error?);
+}
+
+/*
+    Flickr Token Classes
+*/
 
 class flickrRequestToken {
     var oauthToken:String;
@@ -69,9 +80,14 @@ class flickrRequestToken {
             self.oauthTokenSecret = "";
         }
     }
-    
 }
 
+class flickrAccessToken {
+    
+}
+/* 
+     Flickr HTTP API clsses
+*/
 
 class flickrAPIRequest {
     var httpMethod:RequestMethod;

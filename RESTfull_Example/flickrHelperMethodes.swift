@@ -149,10 +149,6 @@ class flickrHelperMethodes {
         return oauthCallback;
     }
     
-    // better make flickrResponseStringParser() which will parse stirng with (example) : 
-    // Left Bound  = "oauth_token"
-    // Right Bound = "&"
-    
     static func flickrResponseStringParser(responseString:String, flickrParseArguments:[String]) -> [String: String] {
         var stringValueArray:[String] = [];
         var parsedDictionary = [String: String]();

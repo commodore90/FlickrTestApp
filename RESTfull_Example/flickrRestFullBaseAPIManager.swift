@@ -43,9 +43,12 @@ class flickrRestFullBaseAPIManager {
         return url;
     }
     
-    func flickrMakeUnauthorizedApiCallWithRequest(apiRequest:flickrAPIRequest, completionHandler: @escaping (flickrAPIResponse) -> Void) -> URLSessionDataTask? {
+    
+    // -> URLSessionDataTask?
+    
+    func flickrMakeUnauthorizedApiCallWithRequest(apiRequest:flickrAPIRequest, completionHandler: @escaping (AsyncResult<flickrAPIResponse>) -> ()) {
         let config = URLSessionConfiguration.default;
-        config.timeoutIntervalForResource = 2.0;
+        // config.timeoutIntervalForResource = 2.0;
         let session = URLSession(configuration: config);
         let request:NSMutableURLRequest = NSMutableURLRequest.init(); // = NSMutableURLRequest(url: callbackURL);
         
@@ -74,6 +77,7 @@ class flickrRestFullBaseAPIManager {
             
             guard error == nil else {
                 print("error = \(error)");
+                completionHandler(AsyncResult.Failure(error));
                 return
             }
             
@@ -108,11 +112,11 @@ class flickrRestFullBaseAPIManager {
                     print(error.localizedDescription)
                 }
                 let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.JSON, responseError: error, responseData: responseData, responseCode: statusCode);
-                completionHandler(flickrResponse);
+                completionHandler(AsyncResult.Sucess(flickrResponse));
             }
             else {
                 let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.TEXT, responseError: error, responseData: responseData, responseCode: statusCode);
-                completionHandler(flickrResponse);
+                completionHandler(AsyncResult.Sucess(flickrResponse));
             }
             
             DispatchQueue.main.async {
@@ -121,7 +125,7 @@ class flickrRestFullBaseAPIManager {
         }
         task.resume()
         
-        return task;
+        // return task;
     }
     
     func flickrMakeAuthorizedApiCallWithRequest() {

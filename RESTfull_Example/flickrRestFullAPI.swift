@@ -10,6 +10,9 @@ import Foundation
 
 class flickrRestFullAPIManager : flickrRestFullBaseAPIManager {
     
+    var requestToken:flickrRequestToken?;
+    var accessToken:flickrAccessToken?;
+    
     override init() {
         
     }
@@ -19,30 +22,39 @@ class flickrRestFullAPIManager : flickrRestFullBaseAPIManager {
         Get Request Token from Flickr Server
      
     */
-    func getOAuthRequestToken() -> flickrRequestToken {   // success: TokenSuccessHandler, failure: FailureHandler? //
+    func getOAuthRequestToken() {  // -> flickrRequestToken?
         // prepare API methode for http request execution
         let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGenerateRequestTokenRequest();
         var requestTokenResponce:flickrResponceDictionary = flickrResponceDictionary.init();
-        var requestToken:flickrRequestToken = flickrRequestToken.init();
+        var responseString:String = "";
+        var requestToken:flickrRequestToken?;
+        // var requestToken:flickrRequestToken = flickrRequestToken.init();
         
         // call flickr API methode for initiating http request
-        let getOauthRequestTask:URLSessionDataTask = super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
+        // let getOauthRequestTask:URLSessionDataTask =
+        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
             
-            print("completionHandler: response is returned to flickr restfull Flickr API!!!");
-            
-            print("Response Data : " + String(data: flickrAPIResponse.responseData!, encoding: String.Encoding.utf8)!);
-            
-            var responseString:String = String(data: flickrAPIResponse.responseData!, encoding: String.Encoding.utf8)!;
-            // create onSuccess/onFailure blocks
-            
-            // Parse oauth Token and oauth Token secret
-            requestTokenResponce = flickrHelperMethodes.flickrResponseStringParser(responseString: responseString, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
-            
-            
-        }!
-     
-        requestToken = flickrRequestToken(requestTokenDictionary: requestTokenResponce);
-        return requestToken;
+            switch flickrAPIResponse {
+            case .Sucess(let flickrResponse):
+                print("completionHandler: response is returned to flickr restfull Flickr API!!!");
+                print("Response Data : " + String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!);
+                responseString = String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!;
+                requestTokenResponce = flickrHelperMethodes.flickrResponseStringParser(responseString: responseString, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
+
+                requestToken = flickrRequestToken(requestTokenDictionary: requestTokenResponce);
+                self.requestToken = requestToken!;
+                break;
+                
+            case .Failure(let flickrError):
+                print("completionHandler: \(flickrError)");
+                self.requestToken = nil;
+                break;
+            }
+    
+        }
+
+        // code written here, in body of getOAuthRequestToken() would be concurent with http API method task
+        // so task would never have time to execute!
     }
     
     

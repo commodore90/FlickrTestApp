@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE7D5FD71E65B74000EBFEB7 /* flickrHelperMethodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D5FD61E65B74000EBFEB7 /* flickrHelperMethodes.swift */; };
+		DE7D5FD91E65B84D00EBFEB7 /* flickrConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D5FD81E65B84D00EBFEB7 /* flickrConstants.swift */; };
+		DE7D5FDB1E6624D500EBFEB7 /* flickrHmacMethodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D5FDA1E6624D500EBFEB7 /* flickrHmacMethodes.swift */; };
+		DE7D5FDD1E66C5B400EBFEB7 /* flickrRestFullAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D5FDC1E66C5B400EBFEB7 /* flickrRestFullAPI.swift */; };
+		DE7D5FDF1E6873A400EBFEB7 /* flickrRestFullBaseAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7D5FDE1E6873A400EBFEB7 /* flickrRestFullBaseAPIManager.swift */; };
+		DEE50D261E6EF71F00A64C9B /* flickrHelperStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE50D251E6EF71F00A64C9B /* flickrHelperStructures.swift */; };
+		DEE50D2F1E6EF7FE00A64C9B /* flickrHelperTypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE50D2E1E6EF7FE00A64C9B /* flickrHelperTypeAlias.swift */; };
 		DEEF1F591E5F3D23009D49B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1F581E5F3D23009D49B4 /* AppDelegate.swift */; };
 		DEEF1F5B1E5F3D23009D49B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1F5A1E5F3D23009D49B4 /* ViewController.swift */; };
 		DEEF1F5E1E5F3D23009D49B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEEF1F5C1E5F3D23009D49B4 /* Main.storyboard */; };
@@ -14,9 +21,60 @@
 		DEEF1F631E5F3D23009D49B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEEF1F611E5F3D23009D49B4 /* LaunchScreen.storyboard */; };
 		DEEF1F6E1E5F3D23009D49B4 /* RESTfull_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1F6D1E5F3D23009D49B4 /* RESTfull_ExampleTests.swift */; };
 		DEEF1F791E5F3D23009D49B4 /* RESTfull_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1F781E5F3D23009D49B4 /* RESTfull_ExampleUITests.swift */; };
+		DEEF1F881E5F3E92009D49B4 /* RestFullModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEF1F871E5F3E92009D49B4 /* RestFullModel.swift */; };
+		DEF2245E1E65841100FB01AB /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF2245D1E65841100FB01AB /* test.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DE7D5FC71E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F435027A1A6791B200038A29;
+			remoteInfo = OAuthSwift;
+		};
+		DE7D5FC91E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C48B28021AFA598D00C7DEF6;
+			remoteInfo = OAuthSwiftOSX;
+		};
+		DE7D5FCB1E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4B6EE1E1BF74CE300443596;
+			remoteInfo = OAuthSwiftTVOS;
+		};
+		DE7D5FCD1E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C40890C01C11B37000E3146A;
+			remoteInfo = OAuthSwiftWatchOS;
+		};
+		DE7D5FCF1E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F451E3C5195B8CD80051434C;
+			remoteInfo = OAuthSwiftDemo;
+		};
+		DE7D5FD11E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C49FD5241AFB5DF500791E1A;
+			remoteInfo = OAuthSwiftOSXDemo;
+		};
+		DE7D5FD31E65910800EBFEB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4D50DF71BFB693F0053B624;
+			remoteInfo = OAuthSwiftTests;
+		};
 		DEEF1F6A1E5F3D23009D49B4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DEEF1F4D1E5F3D23009D49B4 /* Project object */;
@@ -33,7 +91,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		DEF224551E643F7A00FB01AB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		DE7D5FD61E65B74000EBFEB7 /* flickrHelperMethodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrHelperMethodes.swift; sourceTree = "<group>"; };
+		DE7D5FD81E65B84D00EBFEB7 /* flickrConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrConstants.swift; sourceTree = "<group>"; };
+		DE7D5FDA1E6624D500EBFEB7 /* flickrHmacMethodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrHmacMethodes.swift; sourceTree = "<group>"; };
+		DE7D5FDC1E66C5B400EBFEB7 /* flickrRestFullAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrRestFullAPI.swift; sourceTree = "<group>"; };
+		DE7D5FDE1E6873A400EBFEB7 /* flickrRestFullBaseAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrRestFullBaseAPIManager.swift; sourceTree = "<group>"; };
+		DEE50D251E6EF71F00A64C9B /* flickrHelperStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrHelperStructures.swift; sourceTree = "<group>"; };
+		DEE50D2E1E6EF7FE00A64C9B /* flickrHelperTypeAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flickrHelperTypeAlias.swift; sourceTree = "<group>"; };
 		DEEF1F551E5F3D23009D49B4 /* RESTfull_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RESTfull_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEF1F581E5F3D23009D49B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEEF1F5A1E5F3D23009D49B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +125,10 @@
 		DEEF1F741E5F3D23009D49B4 /* RESTfull_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RESTfull_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEF1F781E5F3D23009D49B4 /* RESTfull_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTfull_ExampleUITests.swift; sourceTree = "<group>"; };
 		DEEF1F7A1E5F3D23009D49B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEEF1F871E5F3E92009D49B4 /* RestFullModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestFullModel.swift; sourceTree = "<group>"; };
+		DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OAuthSwift.xcodeproj; path = ../Frameworks/oAuth/OAuthSwift/OAuthSwift.xcodeproj; sourceTree = "<group>"; };
+		DEF2245D1E65841100FB01AB /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
+		DEF2245F1E658F4600FB01AB /* BridgingHeader-RESTfull_Example.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BridgingHeader-RESTfull_Example.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +156,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE7D5FBE1E65910700EBFEB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE7D5FC81E65910800EBFEB7 /* OAuthSwift.framework */,
+				DE7D5FCA1E65910800EBFEB7 /* OAuthSwift.framework */,
+				DE7D5FCC1E65910800EBFEB7 /* OAuthSwift.framework */,
+				DE7D5FCE1E65910800EBFEB7 /* OAuthSwift.framework */,
+				DE7D5FD01E65910800EBFEB7 /* OAuthSwiftDemo.app */,
+				DE7D5FD21E65910800EBFEB7 /* OAuthSwiftOSXDemo.app */,
+				DE7D5FD41E65910800EBFEB7 /* OAuthSwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE7D5FD51E65B72800EBFEB7 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				DE7D5FD61E65B74000EBFEB7 /* flickrHelperMethodes.swift */,
+				DEE50D251E6EF71F00A64C9B /* flickrHelperStructures.swift */,
+				DE7D5FD81E65B84D00EBFEB7 /* flickrConstants.swift */,
+				DE7D5FDA1E6624D500EBFEB7 /* flickrHmacMethodes.swift */,
+				DEE50D2E1E6EF7FE00A64C9B /* flickrHelperTypeAlias.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
+		DEE50D301E705DCF00A64C9B /* FlickrOauthAPI */ = {
+			isa = PBXGroup;
+			children = (
+				DE7D5FDC1E66C5B400EBFEB7 /* flickrRestFullAPI.swift */,
+			);
+			name = FlickrOauthAPI;
+			sourceTree = "<group>";
+		};
 		DEEF1F4C1E5F3D23009D49B4 = {
 			isa = PBXGroup;
 			children = (
+				DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */,
 				DEEF1F571E5F3D23009D49B4 /* RESTfull_Example */,
 				DEEF1F6C1E5F3D23009D49B4 /* RESTfull_ExampleTests */,
 				DEEF1F771E5F3D23009D49B4 /* RESTfull_ExampleUITests */,
@@ -97,12 +214,16 @@
 		DEEF1F571E5F3D23009D49B4 /* RESTfull_Example */ = {
 			isa = PBXGroup;
 			children = (
+				DE7D5FD51E65B72800EBFEB7 /* Helper */,
+				DEF2245D1E65841100FB01AB /* test.m */,
+				DEF224511E643D4400FB01AB /* Frameworks */,
+				DEF224301E6069F100FB01AB /* View */,
+				DEF2242F1E6069E900FB01AB /* API */,
 				DEEF1F581E5F3D23009D49B4 /* AppDelegate.swift */,
-				DEEF1F5A1E5F3D23009D49B4 /* ViewController.swift */,
+				DEEF1F871E5F3E92009D49B4 /* RestFullModel.swift */,
 				DEEF1F5C1E5F3D23009D49B4 /* Main.storyboard */,
-				DEEF1F5F1E5F3D23009D49B4 /* Assets.xcassets */,
-				DEEF1F611E5F3D23009D49B4 /* LaunchScreen.storyboard */,
-				DEEF1F641E5F3D23009D49B4 /* Info.plist */,
+				DEEF1F861E5F3E63009D49B4 /* Other */,
+				DEF2245F1E658F4600FB01AB /* BridgingHeader-RESTfull_Example.h */,
 			);
 			path = RESTfull_Example;
 			sourceTree = "<group>";
@@ -125,6 +246,40 @@
 			path = RESTfull_ExampleUITests;
 			sourceTree = "<group>";
 		};
+		DEEF1F861E5F3E63009D49B4 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				DEEF1F5F1E5F3D23009D49B4 /* Assets.xcassets */,
+				DEEF1F611E5F3D23009D49B4 /* LaunchScreen.storyboard */,
+				DEEF1F641E5F3D23009D49B4 /* Info.plist */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		DEF2242F1E6069E900FB01AB /* API */ = {
+			isa = PBXGroup;
+			children = (
+				DEE50D301E705DCF00A64C9B /* FlickrOauthAPI */,
+				DE7D5FDE1E6873A400EBFEB7 /* flickrRestFullBaseAPIManager.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		DEF224301E6069F100FB01AB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DEEF1F5A1E5F3D23009D49B4 /* ViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		DEF224511E643D4400FB01AB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,6 +290,7 @@
 				DEEF1F511E5F3D23009D49B4 /* Sources */,
 				DEEF1F521E5F3D23009D49B4 /* Frameworks */,
 				DEEF1F531E5F3D23009D49B4 /* Resources */,
+				DEF224551E643F7A00FB01AB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -193,6 +349,7 @@
 				TargetAttributes = {
 					DEEF1F541E5F3D23009D49B4 = {
 						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					DEEF1F681E5F3D23009D49B4 = {
@@ -218,6 +375,12 @@
 			mainGroup = DEEF1F4C1E5F3D23009D49B4;
 			productRefGroup = DEEF1F561E5F3D23009D49B4 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DE7D5FBE1E65910700EBFEB7 /* Products */;
+					ProjectRef = DEF224391E643D1400FB01AB /* OAuthSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				DEEF1F541E5F3D23009D49B4 /* RESTfull_Example */,
@@ -226,6 +389,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DE7D5FC81E65910800EBFEB7 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = DE7D5FC71E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FCA1E65910800EBFEB7 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = DE7D5FC91E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FCC1E65910800EBFEB7 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = DE7D5FCB1E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FCE1E65910800EBFEB7 /* OAuthSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OAuthSwift.framework;
+			remoteRef = DE7D5FCD1E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FD01E65910800EBFEB7 /* OAuthSwiftDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftDemo.app;
+			remoteRef = DE7D5FCF1E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FD21E65910800EBFEB7 /* OAuthSwiftOSXDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OAuthSwiftOSXDemo.app;
+			remoteRef = DE7D5FD11E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DE7D5FD41E65910800EBFEB7 /* OAuthSwiftTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OAuthSwiftTests.xctest;
+			remoteRef = DE7D5FD31E65910800EBFEB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DEEF1F531E5F3D23009D49B4 /* Resources */ = {
@@ -259,7 +474,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE7D5FDD1E66C5B400EBFEB7 /* flickrRestFullAPI.swift in Sources */,
+				DEF2245E1E65841100FB01AB /* test.m in Sources */,
 				DEEF1F5B1E5F3D23009D49B4 /* ViewController.swift in Sources */,
+				DE7D5FDB1E6624D500EBFEB7 /* flickrHmacMethodes.swift in Sources */,
+				DEEF1F881E5F3E92009D49B4 /* RestFullModel.swift in Sources */,
+				DEE50D2F1E6EF7FE00A64C9B /* flickrHelperTypeAlias.swift in Sources */,
+				DE7D5FD71E65B74000EBFEB7 /* flickrHelperMethodes.swift in Sources */,
+				DE7D5FDF1E6873A400EBFEB7 /* flickrRestFullBaseAPIManager.swift in Sources */,
+				DE7D5FD91E65B84D00EBFEB7 /* flickrConstants.swift in Sources */,
+				DEE50D261E6EF71F00A64C9B /* flickrHelperStructures.swift in Sources */,
 				DEEF1F591E5F3D23009D49B4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +584,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/BridgingHeader-RESTfull_Example.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -402,6 +627,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/BridgingHeader-RESTfull_Example.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -412,10 +638,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = RESTfull_Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "RBT.RESTfull-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/BridgingHeader-RESTfull_Example.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -424,10 +653,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = RESTfull_Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "RBT.RESTfull-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/BridgingHeader-RESTfull_Example.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -505,6 +736,7 @@
 				DEEF1F7F1E5F3D23009D49B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DEEF1F801E5F3D23009D49B4 /* Build configuration list for PBXNativeTarget "RESTfull_ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +745,7 @@
 				DEEF1F821E5F3D23009D49B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DEEF1F831E5F3D23009D49B4 /* Build configuration list for PBXNativeTarget "RESTfull_ExampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +754,7 @@
 				DEEF1F851E5F3D23009D49B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

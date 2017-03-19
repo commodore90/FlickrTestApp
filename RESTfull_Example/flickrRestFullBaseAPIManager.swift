@@ -8,12 +8,21 @@
 
 import Foundation
 
+struct flickrBaseAPIManagerError: Error {
+    enum ErrorKind {
+        case badResponse
+    }
+}
+
 class flickrRestFullBaseAPIManager {
     
     func flickrCreateRequestURL() {
         
     }
     
+    /*
+        Crate Request URL from flickrAPIRequest
+     */
     private func createRequestURLfromFlickrAPIRequest(apiRequest:flickrAPIRequest) -> URL {         // this should be URL extension method
         var urlComponent:URLComponents = URLComponents.init();
         var urlString:String = "";
@@ -43,9 +52,10 @@ class flickrRestFullBaseAPIManager {
         return url;
     }
     
-    
-    // -> URLSessionDataTask?
-    
+    /*
+        Fire Unauthorised http API call using flickrAPIRequest.
+        Return Response using completionHandler closure
+     */
     func flickrMakeUnauthorizedApiCallWithRequest(apiRequest:flickrAPIRequest, completionHandler: @escaping (AsyncResult<flickrAPIResponse>) -> ()) {
         let config = URLSessionConfiguration.default;
         // config.timeoutIntervalForResource = 2.0;
@@ -74,7 +84,6 @@ class flickrRestFullBaseAPIManager {
         // execute http request task
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             // check for error
-            
             guard error == nil else {
                 print("error = \(error)");
                 completionHandler(AsyncResult.Failure(error));
@@ -93,30 +102,18 @@ class flickrRestFullBaseAPIManager {
             
             // check if responce is in JSON or TEXT format
             if (responceString?.range(of: flickrConstants.kFlickrJSONmark) != nil) {
-            
-                // Convert server json response to NSDictionary
-                do {
-                    if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-                        
-                        // Print out dictionary
-                        print(convertedJsonIntoDict)
-                        
-                        // Get value by key
-                        let oauth_token = convertedJsonIntoDict["oauth_token"] as? String
-                        if (oauth_token != nil) {
-                            print(oauth_token!)
-                        }
-                        
-                    }
-                } catch let error as NSError {
-                    print(error.localizedDescription)
+                
+                if let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.JSON, responseError: error, responseData: responseData, responseCode: statusCode) {
+                        completionHandler(AsyncResult.Success(flickrResponse));
                 }
-                let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.JSON, responseError: error, responseData: responseData, responseCode: statusCode);
-                completionHandler(AsyncResult.Sucess(flickrResponse));
+                else {
+                    // let error:Error = Error(.badResponse);
+                    // completionHandler(AsyncResult.Failure(error))
+                }
             }
             else {
                 let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.TEXT, responseError: error, responseData: responseData, responseCode: statusCode);
-                completionHandler(AsyncResult.Sucess(flickrResponse));
+                completionHandler(AsyncResult.Success(flickrResponse));
             }
             
             DispatchQueue.main.async {
@@ -128,6 +125,10 @@ class flickrRestFullBaseAPIManager {
         // return task;
     }
     
+    /*
+        Fire Authorised http API call using flickrAPIRequest.
+        Return Response using completionHandler closure
+     */
     func flickrMakeAuthorizedApiCallWithRequest() {
         
     }

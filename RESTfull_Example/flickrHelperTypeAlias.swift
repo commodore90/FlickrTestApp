@@ -9,4 +9,4 @@
 import Foundation
 
 typealias flickrJSON = [String: Any];
-typealias flickrResponceDictionary = [String: String];
+typealias flickrResponseDictionary = [String: String];

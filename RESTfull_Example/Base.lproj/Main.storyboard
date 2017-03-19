@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -54,11 +54,66 @@
                     <navigationItem key="navigationItem" id="VsY-Kk-rt3"/>
                     <connections>
                         <outlet property="textRestFull" destination="Yt3-Qt-ElV" id="n90-0s-W9Z"/>
+                        <segue destination="d6W-KH-64w" kind="show" identifier="flickrUserAuthenticationSegue" id="q5O-Is-yNh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="368.80000000000001" y="465.51724137931041"/>
+        </scene>
+        <!--Flickr User Authentication View Controller-->
+        <scene sceneID="Max-e6-Tgo">
+            <objects>
+                <viewController storyboardIdentifier="FlickrUserAuthenticationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="d6W-KH-64w" customClass="FlickrUserAuthenticationViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pZb-yd-VYq"/>
+                        <viewControllerLayoutGuide type="bottom" id="SwG-cY-bh3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nWt-z4-ZY7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tvn-7g-rUt">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="d6W-KH-64w" id="lPg-2j-F3P"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Tvn-7g-rUt" firstAttribute="top" secondItem="nWt-z4-ZY7" secondAttribute="top" id="2CC-f4-L1R"/>
+                            <constraint firstItem="Tvn-7g-rUt" firstAttribute="leading" secondItem="nWt-z4-ZY7" secondAttribute="leading" id="Hrt-9g-b0n"/>
+                            <constraint firstAttribute="trailing" secondItem="Tvn-7g-rUt" secondAttribute="trailing" id="Zf9-eU-jgK"/>
+                            <constraint firstItem="SwG-cY-bh3" firstAttribute="top" secondItem="Tvn-7g-rUt" secondAttribute="bottom" id="ehE-YB-XRw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="flickrWebView" destination="Tvn-7g-rUt" id="rcM-T7-TIp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S54-rV-YJ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1334" y="466"/>
+        </scene>
+        <!--Flickr List View Controller-->
+        <scene sceneID="HvP-kC-zWo">
+            <objects>
+                <viewController storyboardIdentifier="FlickrListViewController" id="b8O-Xz-QKA" customClass="FlickrListViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qs8-oe-nJn"/>
+                        <viewControllerLayoutGuide type="bottom" id="NOi-ax-xGj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ibi-Mr-4mS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="odg-be-w0p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2213.5999999999999" y="456.52173913043481"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nYh-f5-L6g">

@@ -28,8 +28,11 @@ enum ResponseFormat: String {
     case TEXT = "TEXT"
 }
 
+/*
+ Asynchronus methodes CompletionHandler Types
+*/
 enum AsyncResult<T> {
-    case Sucess(T);
+    case Success(T);
     case Failure(Error?);
 }
 
@@ -54,7 +57,7 @@ class flickrRequestToken {
         self.oauthCallbackConfirmed = oauthCallbackConfirmed;
     }
     
-    init(requestTokenDictionary:flickrResponceDictionary) {
+    init(requestTokenDictionary:flickrResponseDictionary) {
         // TODO: instead of print use assert
         if let oauthCallbackConfirmed:String = requestTokenDictionary[flickrConstants.kOauthCallbackConfirmed] {
             self.oauthCallbackConfirmed = oauthCallbackConfirmed;
@@ -83,8 +86,90 @@ class flickrRequestToken {
 }
 
 class flickrAccessToken {
+    var fullName:String;
+    var accessToken:String;
+    var accessTokenSecret:String;
+    var userNsid:String;
+    var userName:String;
     
+    init() {
+        self.fullName          = "";
+        self.accessToken       = "";
+        self.accessTokenSecret = "";
+        self.userNsid          = "";
+        self.userName          = "";
+    }
+    
+    init(fullName:String, accessToken:String, accessTokenSecret:String, userNsid:String, userName:String) {
+        self.fullName          = fullName;
+        self.accessToken       = accessToken;
+        self.accessTokenSecret = accessTokenSecret;
+        self.userNsid          = userNsid;
+        self.userName          = userName;
+    }
+    
+    init(accessTokenDictionary:flickrResponseDictionary) {
+        if let fullName:String = accessTokenDictionary[flickrConstants.kOauthFullName] {
+            self.fullName = fullName;
+        }
+        else {
+            print("ERROR! Access Token is incomplete!" + flickrConstants.kOauthFullName)
+            self.fullName = "";
+        }
+        
+        if let accessToken:String = accessTokenDictionary[flickrConstants.kOauthToken] {
+            self.accessToken = accessToken;
+        }
+        else {
+            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthToken);
+            self.accessToken = "";
+        }
+        
+        if let accessTokenSecret = accessTokenDictionary[flickrConstants.kOauthTokenSecret] {
+            self.accessTokenSecret = accessTokenSecret;
+        }
+        else {
+            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthTokenSecret);
+            self.accessTokenSecret = "";
+        }
+        
+        if let userNsid:String = accessTokenDictionary[flickrConstants.kOauthUserNsid] {
+            self.userNsid = userNsid;
+        }
+        else {
+            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthUserNsid);
+            self.userNsid = "";
+        }
+        
+        if let userName = accessTokenDictionary[flickrConstants.kOauthUserName] {
+            self.userName = userName;
+        }
+        else {
+            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthUserName);
+            self.userName = "";
+        }
+    }
 }
+
+class flickrUserAuthorization {
+    var oauthVerifier:String;
+    
+    init() {
+        self.oauthVerifier = "";
+    }
+    
+    init (oauthVerifier:String) {
+        if let oauthVerifier:String = oauthVerifier {
+            self.oauthVerifier = oauthVerifier;
+        }
+        else {
+            print("ERROR! oauth Verifier is incomplete!");
+            self.oauthVerifier = "";
+        }
+    }
+}
+
+
 /* 
      Flickr HTTP API clsses
 */
@@ -116,5 +201,18 @@ class flickrAPIResponse {
         self.responseError  = responseError;
         self.responseData   = responseData;
         self.responseCode   = responseCode;
+    }
+}
+
+extension flickrAPIRequest {
+    func getURL() -> URL {
+        let requestURL:NSURLComponents = NSURLComponents.init();
+        
+        requestURL.scheme = flickrConstants.kBaseHostURLScheme;
+        requestURL.host   = flickrConstants.kBaseHostURL;
+        requestURL.path   = path;
+        requestURL.queryItems = query;
+        
+        return requestURL.url!
     }
 }

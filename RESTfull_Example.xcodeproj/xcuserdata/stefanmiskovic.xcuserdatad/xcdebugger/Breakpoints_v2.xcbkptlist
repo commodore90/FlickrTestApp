@@ -70,15 +70,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RESTfull_Example/FlickrUserAuthenticationView.swift"
+            timestampString = "511800216.269554"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "webView(_:shouldStartLoadWith:navigationType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RESTfull_Example/FlickrListViewController.swift"
-            timestampString = "511375067.565282"
+            timestampString = "511787419.312475"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RESTfull_Example/FlickrListViewController.swift"
+            timestampString = "511787531.353244"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -89,14 +121,46 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RESTfull_Example/FlickrUserAuthenticationView.swift"
-            timestampString = "511373746.194732"
+            filePath = "RESTfull_Example/FlickrRestFullBaseAPIManager.swift"
+            timestampString = "511788530.889011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "webView(_:shouldStartLoadWith:navigationType:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "createRequestURLfromFlickrAPIRequest(apiRequest:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RESTfull_Example.FlickrRestFullBaseAPIManager.(createRequestURLfromFlickrAPIRequest in _A02B6D48C6E192516BE9A765505D677F) (apiRequest : RESTfull_Example.flickrAPIRequest) -&gt; Foundation.URL"
+                  moduleName = "RESTfull_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/FlickrRestFullBaseAPIManager.swift"
+                  timestampString = "511788572.834652"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "273">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RESTfull_Example.FlickrRestFullBaseAPIManager.(createRequestURLfromFlickrAPIRequest in _A02B6D48C6E192516BE9A765505D677F) (apiRequest : RESTfull_Example.flickrAPIRequest) -&gt; Foundation.URL"
+                  moduleName = "RESTfull_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/FlickrRestFullBaseAPIManager.swift"
+                  timestampString = "511788572.838763"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "2226">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

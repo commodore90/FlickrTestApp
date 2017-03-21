@@ -69,12 +69,8 @@ class MainViewController: UIViewController {
     }
 }
 
-// let timestamp = String(Int64(Date().timeIntervalSince1970))
-// let nonce = OAuthSwiftCredential.generateNonce()
-// 
-// func generateNonce() -> String {
-// let uuidString = UUID().uuidString
-// return uuidString.substring(to: 8)
+
+
 
 
 

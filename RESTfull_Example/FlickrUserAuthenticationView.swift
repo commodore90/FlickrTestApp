@@ -81,9 +81,12 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
                 case .Success( _) :
                     print("Sueccessfuly Completed getOauthAccessToken!");
                     
-                    let FlickrListViewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FlickrListViewController");
-                    self.navigationController?.pushViewController(FlickrListViewController, animated: true);
-                    self.navigationController?.setViewControllers([FlickrListViewController], animated: true);
+                    let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FlickrPhotoViewController");
+                    
+//                    let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FlickrPhotoSelectViewController");
+                    
+                    self.navigationController?.pushViewController(controller, animated: true);
+                    self.navigationController?.setViewControllers([controller], animated: true);
                     
                     break;
                 case .Failure(let oauthError) :

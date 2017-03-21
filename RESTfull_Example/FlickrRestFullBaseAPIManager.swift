@@ -14,7 +14,7 @@ struct flickrBaseAPIManagerError: Error {
     }
 }
 
-class flickrRestFullBaseAPIManager {
+class FlickrRestFullBaseAPIManager {
     
     func flickrCreateRequestURL() {
         
@@ -29,22 +29,23 @@ class flickrRestFullBaseAPIManager {
         var i:Int = 0;
         
         urlComponent.scheme      = flickrConstants.kBaseHostURLScheme;
-        urlComponent.host        = flickrConstants.kBaseHostURL;
+        urlComponent.host        = apiRequest.host; // flickrConstants.kBaseHostURL;
         urlComponent.path        = apiRequest.path;
         
         urlString += String((urlComponent.url?.absoluteString)!) + "?";
         
         urlComponent.queryItems  = apiRequest.query;
         
-        
-        for query in apiRequest.query! {
-            urlString += String(query.name + "=" + query.value!)!;
-            
-            if (i != (apiRequest.query?.count)!-1) {
-                urlString += "&";
+        if (apiRequest.query != nil) {
+            for query in apiRequest.query! {
+                urlString += String(query.name + "=" + query.value!)!;
+                
+                if (i != (apiRequest.query?.count)!-1) {
+                    urlString += "&";
+                }
+                
+                i += 1;
             }
-            
-            i += 1;
         }
         
         let url:URL = URL(string: urlString)!;
@@ -72,7 +73,6 @@ class flickrRestFullBaseAPIManager {
         if ((apiRequest.headers != nil) && ((apiRequest.headers?.count)! > 0)) {
             for (key, value) in apiRequest.headers! {
                 request.setValue(value as? String, forHTTPHeaderField: key);                // this is wrong!
-
             }
         }
         

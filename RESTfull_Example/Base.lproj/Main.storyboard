@@ -97,10 +97,57 @@
             </objects>
             <point key="canvasLocation" x="1334" y="466"/>
         </scene>
-        <!--Flickr List View Controller-->
+        <!--Flickr Photo Select View Controller-->
+        <scene sceneID="yAw-Uw-fBe">
+            <objects>
+                <viewController storyboardIdentifier="FlickrPhotoSelectViewController" id="Oig-gX-8ol" customClass="FlickrPhotoSelectViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tES-K9-3ay"/>
+                        <viewControllerLayoutGuide type="bottom" id="WIa-be-qRI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oJY-Hj-8au">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLM-sN-Vdy">
+                                <rect key="frame" x="164" y="141" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Car"/>
+                                <connections>
+                                    <action selector="CarButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="zP0-dg-1Dw"/>
+                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoCarSegue" id="bQG-av-hzs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTi-u8-l7N">
+                                <rect key="frame" x="164" y="223" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Plane"/>
+                                <connections>
+                                    <action selector="PlaneButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="oOP-BY-YL4"/>
+                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPlaneSegue" id="J0g-s8-2Jt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhg-ma-Qw9">
+                                <rect key="frame" x="164" y="318" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Bike"/>
+                                <connections>
+                                    <action selector="BikeButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="qDH-TE-EqE"/>
+                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoBikeSegue" id="yLI-tI-0ir"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xop-y7-vc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2329" y="466"/>
+        </scene>
+        <!--Flickr Photo View Controller-->
         <scene sceneID="HvP-kC-zWo">
             <objects>
-                <viewController storyboardIdentifier="FlickrListViewController" id="b8O-Xz-QKA" customClass="FlickrListViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FlickrPhotoViewController" id="b8O-Xz-QKA" customClass="FlickrPhotoViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qs8-oe-nJn"/>
                         <viewControllerLayoutGuide type="bottom" id="NOi-ax-xGj"/>
@@ -108,12 +155,23 @@
                     <view key="view" contentMode="scaleToFill" id="ibi-Mr-4mS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hNn-vw-Ksj">
+                                <rect key="frame" x="0.0" y="111" width="375" height="556"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hNn-vw-Ksj" firstAttribute="top" secondItem="qs8-oe-nJn" secondAttribute="bottom" constant="50" id="fJh-JN-HvU"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="flickrImageView" destination="hNn-vw-Ksj" id="NWQ-bN-o4U"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="odg-be-w0p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2213.5999999999999" y="456.52173913043481"/>
+            <point key="canvasLocation" x="3305" y="466"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nYh-f5-L6g">
@@ -132,4 +190,7 @@
             <point key="canvasLocation" x="-593" y="466"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bQG-av-hzs"/>
+    </inferredMetricsTieBreakers>
 </document>

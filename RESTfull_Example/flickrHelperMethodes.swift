@@ -28,26 +28,65 @@ extension String {
 
 class flickrHelperMethodes {
     
+    static private func collectAllStructuresFromJSON(inputStructure:Any, key:String?) -> [Any]? {
+        var structureKey   :String?
+        var subStructureKey:String?
+        
+        struct parsedArray {
+            static var array:[Any]?
+        }
+        
+        // 1. try to cast sub-structure to Dictionary, if nil try to cast to Array
+        if let tempDict = inputStructure as? NSDictionary {
+            for (key, value) in tempDict {
+                structureKey = key as? String;
+                collectAllStructuresFromJSON(inputStructure: value, key: key as? String);
+                print("Only Sub-Dictionary Keys: \(structureKey)");
+            }
+            // here, algorithm stoped at bottom of leaf
+            print("Extracted Dictionary for Key: \(structureKey):  \(tempDict)");
+        }
+        // 2. if cast to Dictionary failed, sub-structure may be array of [key, value] pairs
+        else if let tempArray = inputStructure as? NSArray {
+            for value in tempArray {
+                subStructureKey = structureKey;
+                collectAllStructuresFromJSON(inputStructure: value, key: nil);
+            }
+            // store this array if needed
+            print("Extracted Array for Key: \(key) \(tempArray)")
+            
+            // get values for keys : (tempArray[0] as? NSDictionary)?.value(forKey: "title") as? String
+        }
+        else {
+            // here, can extract all [key, value] pairs, undependently
+            //print("Extracted Key: \(key) with Value: \(inputStructure)");
+        }
+     
+        return parsedArray.array!;
+    }
+    
     /*
         JSON parser of data returned by http API methode
      */
          // Convert server json response to NSDictionary
-//    static func flickrJSONParser(data: Data) -> flickrJSON? {
-//        var jsonDictionary:flickrJSON?;
-//         do {
-//             if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
-//                // Print out dictionary
-//                print(convertedJsonIntoDict)
-//                for (key, value) in convertedJsonIntoDict {
-//                    jsonDictionary.
-//                }
-//             }
-//         }
-//         catch let error as NSError {
-//            print(error.localizedDescription)
-//         }
-//        return jsonDictionary;
-//    }
+    static func flickrGetJSONDictionary(data: Data) -> NSDictionary? { // , parserKeys:[String] -> [String:Any]
+        // var jsonDictionary = [String:Any]();
+        var jsonDictionary:NSDictionary?
+         do {
+            if let convertedJsonIntoDict:NSDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
+                // Print out dictionary
+                print(convertedJsonIntoDict)
+                jsonDictionary = convertedJsonIntoDict;
+                
+                // collectAllStructuresFromJSON(inputStructure: inputDictionary, key: nil);
+                
+             }
+         }
+         catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return jsonDictionary;
+    }
  
     /*
         Get Specific Base-URL Methodes
@@ -161,37 +200,98 @@ class flickrHelperMethodes {
         These methodes generate valid Flickr URLs
     */
     
+    static func flickrProcessAndAddSignatureQueryParameterToURL(httpRequestURL:URL, requestQueryArray:[URLQueryItem], tokenSecret:String?, queryPercentageEncode:Bool = false) -> NSURLComponents {
+        // variables
+        var URLBaseSring:String                   = "";
+        var signatureKey:String                   = "";
+        var oauthSignature:String                 = "";
+        var sortedQueryArray:[URLQueryItem]       = [];
+        var URLWithQueryParams:NSURLComponents    = NSURLComponents.init();
+        let URLWithoutQueryParams:NSURLComponents = NSURLComponents.init();
+        
+        // process query parameters
+        URLWithQueryParams.scheme     = httpRequestURL.scheme;
+        URLWithQueryParams.host       = httpRequestURL.host;
+        URLWithQueryParams.path       = httpRequestURL.path;
+        
+        URLWithoutQueryParams.scheme  = httpRequestURL.scheme;
+        URLWithoutQueryParams.host    = httpRequestURL.host;
+        URLWithoutQueryParams.path    = httpRequestURL.path;
+        
+        
+        // Sort query array lexicographically
+        sortedQueryArray = flickrSortQueryParamsLexi(inputQeryArray: requestQueryArray);
+        URLWithQueryParams.queryItems = sortedQueryArray;
+        
+        // Percentage encode each query value:
+        if (queryPercentageEncode) {
+            var i:Int = 0;
+            for _ in URLWithQueryParams.queryItems!{
+                URLWithQueryParams.queryItems?[i].value = URLWithQueryParams.queryItems?[i].value?.RFC3986URLEncoded;
+                i += 1;
+            }
+        }
+        
+        // Generate URL Base String [GET/POST] + & + [percetage encoded current URL] + "&" + [percentage encoded query params, again!]
+        URLBaseSring = "GET" + "&" + (URLWithoutQueryParams.url?.absoluteString.RFC3986URLEncoded)! + "&" + (URLWithQueryParams.query?.RFC3986URLEncoded)!;
+        
+        // Generate signature key [percentage encoded]
+        if let _ = tokenSecret {                            // Some/None can be used
+            signatureKey = String(flickrConstants.kSecretKey + "&" + tokenSecret!)!;
+        }
+        else {
+            signatureKey = String(flickrConstants.kSecretKey + "&");
+        }
+        
+        // Generate oAuth Signature as SHA1 of current URL Base String, and store it to sharedInstance
+        oauthSignature = URLBaseSring.hmac(algorithm: HMACAlgorithm.SHA1, key: signatureKey);
+        oauthSignature = oauthSignature.RFC3986URLEncoded;
+
+        // Append new Query Parameter (oauth_signature) to existing URL
+        let tempArray:[URLQueryItem] = [NSURLQueryItem(name: "oauth_signature", value: oauthSignature) as URLQueryItem];
+        // flickrInsertQueryParamsLexiToURL(url: &requestTokenURL, aditionalQueryArray: tempArray)
+        URLWithQueryParams = flickrInsertQueryParamsLexiToURLComponents(urlComponents: URLWithQueryParams, aditionalQueryArray: tempArray)
+        
+        print("Generated Processed request URL: " + (URLWithQueryParams.url?.absoluteURL.absoluteString)!);
+
+        return URLWithQueryParams;
+    }
+    
+    
     // Generate Request Token complete api Request
     static func flickrGenerateRequestTokenRequest() -> flickrAPIRequest {
-        var requestTokenURLBaseSring:String = "";
+//        var requestTokenURLBaseSring:String = "";
         
-        var signatureKey:String             = "";
-        let requestTokenSecret:String       = ""; // this is a first stage so token secret is empty
+//        var signatureKey:String             = "";
+//        let requestTokenSecret:String       = ""; // this is a first stage so token secret is empty
         
         // Generate valid Lexicographicaly value sorted Request Token URL
         let requestTokenURL:URL = flickrGetRequestTokenBaseURL(); // (NSURLComponents)
         
         
         var requestTokenURLWithQueryParams:NSURLComponents = NSURLComponents.init();
-        let requestTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents.init();
+//        let requestTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents.init();
         
         var tokenRequestQueryArray:[URLQueryItem] = [];
-        var oauthSignature:String = "";
-        
+//        var oauthSignature:String = "";
+
         // Add query parameteres
         tokenRequestQueryArray = flickrGenerateRequestTokenStartParams();
         
+        requestTokenURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: requestTokenURL,
+            requestQueryArray: tokenRequestQueryArray,
+            tokenSecret: nil,
+            queryPercentageEncode: true
+        );
+        
+/*
+
+        
+        
         // Sort Query parameters
-        // dump(tokenRequestQueryArray);
         tokenRequestQueryArray = flickrSortQueryParamsLexi(inputQeryArray: tokenRequestQueryArray);
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         // Create URL with parameters and Append query parameters to request token URL
         requestTokenURLWithQueryParams.scheme     = requestTokenURL.scheme;
@@ -224,7 +324,7 @@ class flickrHelperMethodes {
         // Generate oAuth Signature as SHA1 of current URL Base String, and store it to sharedInstance
         oauthSignature = requestTokenURLBaseSring.hmac(algorithm: HMACAlgorithm.SHA1, key: signatureKey);
         oauthSignature = oauthSignature.RFC3986URLEncoded;
-        FlickrSessionAuthorization.sharedInstance.setOauthSignature(oauthSignature: oauthSignature);
+        // FlickrSessionAuthorization.sharedInstance.setOauthSignature(oauthSignature: oauthSignature);
         
         // Append new Query Parameter (oauth_signature) to existing URL
         let tempArray:[URLQueryItem] = [NSURLQueryItem(name: "oauth_signature", value: oauthSignature) as URLQueryItem];
@@ -232,18 +332,14 @@ class flickrHelperMethodes {
         requestTokenURLWithQueryParams = flickrInsertQueryParamsLexiToURLComponents(urlComponents: requestTokenURLWithQueryParams, aditionalQueryArray: tempArray)
         
         print("Generated requestTokenURL: " + (requestTokenURLWithQueryParams.url?.absoluteURL.absoluteString)!);
-        
-        
-        
-        
-        
-        
+*/
         
         
         
         
         let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
+            host: flickrConstants.kBaseHostURL,
             path: String(flickrConstants.kOauthServiceURL + flickrConstants.kGetRequestTokenURL),
             headers: nil,
             query: requestTokenURLWithQueryParams.queryItems,
@@ -267,24 +363,37 @@ class flickrHelperMethodes {
         
         let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
+            host: flickrConstants.kBaseHostURL,
             path: String(flickrConstants.kOauthServiceURL + flickrConstants.kGetUserAuthorization),
             headers: nil,
             query: userAuthorizationURLWithQueryParams.queryItems,
-            body: nil);
+            body: nil
+        );
         
         return apiRequest
     }
     
     // Generate Access Token complete api Request
     static func flickrGenerateAccessTokenRequest(requestToken:flickrRequestToken, userAuthorization:flickrUserAuthorization) -> flickrAPIRequest {
-        var accessTokenURLBaseSring:String = "";
-        var signatureKey:String            = "";
-        var oauthSignature:String          = "";
+        // var accessTokenURLBaseSring:String = "";
+        // var signatureKey:String            = "";
+        // var oauthSignature:String          = "";
         
         let accessTokenURL:URL = flickrGetAccessTokenBaseURL();
         var accessTokenURLWithQueryParams:NSURLComponents = NSURLComponents();
-        var accessTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents();
+        // var accessTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents();
         
+        
+        
+        accessTokenURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: accessTokenURL,
+            requestQueryArray: flickrGenerateAccessTokenStartParams(),
+            tokenSecret: FlickrSessionAuthorization.sharedInstance.getRequestToken().oauthTokenSecret,
+            queryPercentageEncode: true
+        );
+        
+        
+/*
         accessTokenURLWithQueryParams.scheme = accessTokenURL.scheme;
         accessTokenURLWithQueryParams.host   = accessTokenURL.host;
         accessTokenURLWithQueryParams.path   = accessTokenURL.path;
@@ -322,19 +431,94 @@ class flickrHelperMethodes {
 
         print("Generated accessTokenURL: " + (accessTokenURLWithQueryParams.url?.absoluteURL.absoluteString)!);
         
+        
+        
+*/
+        
         let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
+            host:  flickrConstants.kBaseHostURL,
             path: String(flickrConstants.kOauthServiceURL + flickrConstants.kGetAccessToken),
             headers: nil,
             query: accessTokenURLWithQueryParams.queryItems,
-            body: nil);
+            body: nil
+        );
         
         return apiRequest
     }
     
-    // Generate Image API request
+    /*
+        Generate Image API request
+    */
+
     //static func flickrGenerate
     
+    static func fickrGenerateLoginTestRequest() -> flickrAPIRequest {
+        let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
+        var loginURLWithQueryParams:NSURLComponents = NSURLComponents.init();
+        var accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
+        
+        // manage query parameters:
+        loginURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: flickrAPIsrvice,
+            requestQueryArray: flickrGenerateLoginTesstStartParams(accessTokenString: accessTokenString),
+            tokenSecret: FlickrSessionAuthorization.sharedInstance.getAccessToken().accessTokenSecret
+        );
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrConstants.kflickrAPIHost,
+            path: flickrAPIsrvice.path,
+            headers: nil,
+            query: loginURLWithQueryParams.queryItems,
+            body: nil
+        );
+        
+        return apiRequest
+    }
+    
+    static func fickrGeneratePhotosSearchRequest(photoTag:String) -> flickrAPIRequest {
+        let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
+        var searchURLWithQueryParams:NSURLComponents = NSURLComponents.init();
+        let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
+        let userID:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().userNsid;
+        
+        // manage query parameters:
+        searchURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: flickrAPIsrvice,
+            requestQueryArray: flickrGeneratePhotosSearchStartParams(accessTokenString: accessTokenString, userID: userID, photoTag: photoTag),
+            tokenSecret: FlickrSessionAuthorization.sharedInstance.getAccessToken().accessTokenSecret
+        );
+        
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrConstants.kflickrAPIHost,
+            path: flickrAPIsrvice.path,
+            headers: nil,
+            query: searchURLWithQueryParams.queryItems,
+            body: nil
+        );
+        
+        return apiRequest
+    }
+    
+    // Flickr Photo API
+    static func flickrGenerateDownloadPhotoFromURLReQuest(photoContext: flickrPhotoContext) -> flickrAPIRequest {
+        let flickrStaticPhotoDownloadURLHost:String = "farm" + photoContext.farm + ".staticflickr.com";
+        let flickrStaticPhotoDownloadURLPath:String = "/" + photoContext.server + "/" + photoContext.id + "_" + photoContext.secret + ".jpg";   // format info should be provided externaly!
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrStaticPhotoDownloadURLHost,
+            path: flickrStaticPhotoDownloadURLPath,
+            headers: nil,
+            query: nil,
+            body: nil
+        );
+        
+        return apiRequest;
+    }
     
     /*
         Internal helper methodes
@@ -372,6 +556,16 @@ class flickrHelperMethodes {
         
         print("Access Token URL: " + String(describing: accessTokenURL.url));
         return accessTokenURL.url!;
+    }
+    
+    private static func flickrGenerateAPIBaseURL() -> URL {
+        let flickrAPIBaseURL:NSURLComponents = NSURLComponents.init();
+        
+        flickrAPIBaseURL.scheme = flickrConstants.kBaseHostURLScheme;
+        flickrAPIBaseURL.host   = flickrConstants.kflickrAPIHost;
+        flickrAPIBaseURL.path   = flickrConstants.kFlickrAPIPath;
+        
+        return flickrAPIBaseURL.url!;
     }
     
     // Generate callback parameter
@@ -414,6 +608,38 @@ class flickrHelperMethodes {
             // URLQueryItem(name: "oauth_signature", value: FlickrSessionAuthorization.sharedInstance.getOauthSignature())
         ];
         return queryParams;
+    }
+    
+    private static func flickrGenerateLoginTesstStartParams(accessTokenString:String) -> [URLQueryItem] {
+        let queryParams:[URLQueryItem] = [
+            URLQueryItem(name: "nojsoncallback", value: "1"),
+            URLQueryItem(name: "oauth_nonce", value: flickrHelperMethodes.flickrGenerateOauthNonce()),
+            URLQueryItem(name: "format", value: "json"),
+            URLQueryItem(name: "oauth_consumer_key", value: flickrConstants.kApiKey),
+            URLQueryItem(name: "oauth_timestamp", value: flickrHelperMethodes.flickrGenerateOauthTimestamp()),
+            URLQueryItem(name: "oauth_signature_method", value: flickrConstants.kOauthSignatureMethod),
+            URLQueryItem(name: "oauth_version", value: flickrConstants.kOauthVersion),
+            URLQueryItem(name: "oauth_token", value: accessTokenString),
+            URLQueryItem(name: "method", value: "flickr.test.login")
+            ];
+        return queryParams
+    }
+    
+    private static func flickrGeneratePhotosSearchStartParams(accessTokenString:String, userID:String, photoTag:String) -> [URLQueryItem] {
+        let queryParams:[URLQueryItem] = [
+            URLQueryItem(name: "nojsoncallback", value: "1"),
+            URLQueryItem(name: "oauth_nonce", value: flickrHelperMethodes.flickrGenerateOauthNonce()),
+            URLQueryItem(name: "format", value: "json"),
+            URLQueryItem(name: "oauth_consumer_key", value: flickrConstants.kApiKey), // api_key
+            URLQueryItem(name: "user_id", value: userID),
+            URLQueryItem(name: "oauth_timestamp", value: flickrHelperMethodes.flickrGenerateOauthTimestamp()),
+            URLQueryItem(name: "oauth_signature_method", value: flickrConstants.kOauthSignatureMethod),
+            URLQueryItem(name: "oauth_version", value: flickrConstants.kOauthVersion),
+            URLQueryItem(name: "oauth_token", value: accessTokenString),
+            URLQueryItem(name: "tags", value: photoTag),
+            URLQueryItem(name: "method", value: "flickr.photos.search")
+            ];
+        return queryParams
     }
     
     

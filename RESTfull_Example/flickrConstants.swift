@@ -48,4 +48,10 @@ struct flickrConstants {
     // 
     static let kInputTokenSecret:String     = "";
     
+    
+    
+    // Flickr API Constants
+    static let kflickrAPIHost = "api.flickr.com"
+    static let kFlickrAPIPath = "/services/rest"
+    
 }

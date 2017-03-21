@@ -8,10 +8,7 @@
 
 import Foundation
 
-class flickrRestFullAPIManager : flickrRestFullBaseAPIManager {
-    
-    // var requestToken:flickrRequestToken?;
-    // var accessToken:flickrAccessToken?;
+class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
     
     override init() {
         

@@ -176,13 +176,15 @@ class flickrUserAuthorization {
 
 class flickrAPIRequest {
     var httpMethod:RequestMethod;
+    var host:String
     var path:String;                         // full URL path, without query params
     var headers:flickrJSON?;
     var query:[URLQueryItem]?;
     var body:Data?;
     
-    init(httpMethod:RequestMethod, path:String, headers:flickrJSON?, query:[URLQueryItem]?, body:Data?) {
+    init(httpMethod:RequestMethod,host:String ,path:String, headers:flickrJSON?, query:[URLQueryItem]?, body:Data?) {
         self.httpMethod = httpMethod;
+        self.host       = host;
         self.path       = path;
         self.headers    = headers;
         self.query      = query;
@@ -208,11 +210,36 @@ extension flickrAPIRequest {
     func getURL() -> URL {
         let requestURL:NSURLComponents = NSURLComponents.init();
         
-        requestURL.scheme = flickrConstants.kBaseHostURLScheme;
-        requestURL.host   = flickrConstants.kBaseHostURL;
-        requestURL.path   = path;
-        requestURL.queryItems = query;
+        requestURL.scheme     = flickrConstants.kBaseHostURLScheme;
+        requestURL.host       = self.host;
+        requestURL.path       = self.path;
+        requestURL.queryItems = self.query;
         
         return requestURL.url!
+    }
+}
+
+/*
+    Flickr Photo API
+*/
+
+class flickrPhotoContext {
+    var id:String;
+    var secret:String;
+    var server:String;
+    var farm:String;
+    
+    init() {
+        self.id     = "";
+        self.secret = "";
+        self.server = "";
+        self.farm   = "";
+    }
+    
+    init (id:String, secret:String, server:String, farm:String) {
+        self.id     = id;
+        self.secret = secret;
+        self.server = server;
+        self.farm   = farm;
     }
 }

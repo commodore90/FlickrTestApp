@@ -21,7 +21,7 @@ final class FlickrSessionAuthorization {
     var requestToken:flickrRequestToken?;
     var accessToken:flickrAccessToken?;
     var userAuthorization:flickrUserAuthorization?;
-    var oauthSignature:String?;
+    // var oauthSignature:String?;
     
     private init() {
         
@@ -40,9 +40,9 @@ final class FlickrSessionAuthorization {
         self.userAuthorization = userAuthorization;
     }
     
-    func setOauthSignature(oauthSignature:String) {
-        self.oauthSignature = oauthSignature;
-    }
+//    func setOauthSignature(oauthSignature:String) {
+//        self.oauthSignature = oauthSignature;
+//    }
     
     // getters
     func getRequestToken() -> flickrRequestToken {
@@ -57,9 +57,9 @@ final class FlickrSessionAuthorization {
         return self.userAuthorization!;
     }
     
-    func getOauthSignature() -> String {
-        return self.oauthSignature!;
-    }
+//    func getOauthSignature() -> String {
+//        return self.oauthSignature!;
+//    }
     
 //    static func getSharedRequestToken() -> flickrRequestToken{
 //        return self.sharedInstance.requestToken!;

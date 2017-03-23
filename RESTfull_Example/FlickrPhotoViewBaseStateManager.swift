@@ -39,20 +39,26 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
         self.photoTag = photoTag;
     }
     
+    /*
+     Test if User is Logged in
+    */
     func testIfUserIsLoggedIn() {
-    
+        self.flickrLoggingAPI.flickrLoginTest() { (loginCompletion) in
+            switch loginCompletion {
+            case .Success(_):
+                print("User is logged in");
+            case .Failure(let loginError):
+                print("Login error : \(loginError)")
+            }
+        }
     }
     
     /*
      Search images by photo tag and show it
      */
-    
-    // func fetchCustomPhoto() {
-    //
-    // }
-    
+
     // func fetchPhoto(photoTag:String) {
-    func fetchPhoto() {                                                         // photoTag:String
+    func fetchPhoto() {
         var photoContext:flickrPhotoContext = flickrPhotoContext.init();
         var photoIterator:Int?;
         
@@ -86,5 +92,4 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
             }
         }
     }
-    
 }

@@ -96,8 +96,5 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
                 }
             }
         }
-        
-    
     }
-    
 }

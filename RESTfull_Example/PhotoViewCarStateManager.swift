@@ -11,31 +11,10 @@ import UIKit
 
 class PhotoViewCarStateManager : FlickrPhotoViewBaseStateManager {
     
+    /*
+     Dependecy Injection
+     */
     override init () {
-        super.init(photoTag: "Car"); // PhotoTagTest
+        super.init(photoTag: "Car");
     }
-    
-    
-    /*
-     Test if user is logged in
-     */
-    override func testIfUserIsLoggedIn() {
-        self.flickrLoggingAPI.flickrLoginTest() { (loginCompletion) in
-            switch loginCompletion {
-            case .Success(_):
-                print("User is logged in");
-            case .Failure(let loginError):
-                print("Login error : \(loginError)")
-            }
-        }
-    }
-    
-
-    /*
-     Search images by photo tag and show it
-     */
-    
-     // override func fetchPhoto() {
-     //     super.fetchPhoto();
-     // }
 }

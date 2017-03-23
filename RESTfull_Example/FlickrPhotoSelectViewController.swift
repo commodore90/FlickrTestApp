@@ -34,16 +34,37 @@ class FlickrPhotoSelectViewController: UIViewController {
     @IBAction func BikeButtonTapped(_ sender: UIButton) {
         bikeButtonTapped = true;
     }
-
+	
     
     
     // MARK: - Navigation
+    // Before transition to FlickrPhotoviewController set delegate field
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if ((segue.identifier?.range(of: "PhotoSelect")) != nil) {
-            print(segue.identifier);
+        if ((segue.identifier?.range(of: "PresentPhoto")) != nil) {
+            
+            let destinationVC:FlickrPhotoViewController = segue.destination as! FlickrPhotoViewController;
+            
+            if carButtonTapped {
+                let carStateManager:PhotoViewCarStateManager = PhotoViewCarStateManager.init();
+                destinationVC.stateManagerDelegate = carStateManager;
+            }
             
             
+            if planeButtonTapped {
+                // let planeStateManager:PhotoViewPlaneStateManager = PhotoViewPlaneStateManager.init();
+                // destinationVC.stateManagerDelegate = planeStateManager;
+            }
+            
+            
+            if bikeButtonTapped {
+                // let bikeStateManager:PhotoViewBikeStateManager = PhotoViewBikeStateManager.init();
+                // destinationVC.stateManagerDelegate = bikeStateManager;
+            }
         }
+        
+        carButtonTapped   = false;
+        planeButtonTapped = false;
+        bikeButtonTapped  = false;
     }
 
 }

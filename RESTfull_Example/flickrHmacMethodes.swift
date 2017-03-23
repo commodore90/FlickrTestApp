@@ -15,9 +15,9 @@ extension String {
         let cData = self.cString(using: String.Encoding.utf8);
         
         var result = [CUnsignedChar](repeating: 0, count: Int(algorithm.digestLength()));
-        
         let keyLength  = Int(key.lengthOfBytes(using: String.Encoding.utf8)); //  Int(strlen(cKey!))
         
+        // processing methode
         CCHmac(algorithm.toCCHmacAlgorithm(), cKey!, keyLength, cData!, Int(strlen(cData!)), &result);
         
         let hmacData:NSData = NSData(bytes: result, length: (Int(algorithm.digestLength())));

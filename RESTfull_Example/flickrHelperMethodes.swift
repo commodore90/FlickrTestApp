@@ -28,6 +28,7 @@ extension String {
 
 class flickrHelperMethodes {
     
+    // recursive methode for extracting all json key/value pairs
     static private func collectAllStructuresFromJSON(inputStructure:Any, key:String?) -> [Any]? {
         var structureKey   :String?
         var subStructureKey:String?
@@ -260,20 +261,10 @@ class flickrHelperMethodes {
     
     // Generate Request Token complete api Request
     static func flickrGenerateRequestTokenRequest() -> flickrAPIRequest {
-//        var requestTokenURLBaseSring:String = "";
-        
-//        var signatureKey:String             = "";
-//        let requestTokenSecret:String       = ""; // this is a first stage so token secret is empty
-        
         // Generate valid Lexicographicaly value sorted Request Token URL
         let requestTokenURL:URL = flickrGetRequestTokenBaseURL(); // (NSURLComponents)
-        
-        
         var requestTokenURLWithQueryParams:NSURLComponents = NSURLComponents.init();
-//        let requestTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents.init();
-        
         var tokenRequestQueryArray:[URLQueryItem] = [];
-//        var oauthSignature:String = "";
 
         // Add query parameteres
         tokenRequestQueryArray = flickrGenerateRequestTokenStartParams();
@@ -284,58 +275,6 @@ class flickrHelperMethodes {
             tokenSecret: nil,
             queryPercentageEncode: true
         );
-        
-/*
-
-        
-        
-        // Sort Query parameters
-        tokenRequestQueryArray = flickrSortQueryParamsLexi(inputQeryArray: tokenRequestQueryArray);
-
-        
-        // Create URL with parameters and Append query parameters to request token URL
-        requestTokenURLWithQueryParams.scheme     = requestTokenURL.scheme;
-        requestTokenURLWithQueryParams.host       = requestTokenURL.host;
-        requestTokenURLWithQueryParams.path       = requestTokenURL.path;
-        
-        requestTokenURLWithoutQueryParams.scheme  = requestTokenURLWithQueryParams.scheme;
-        requestTokenURLWithoutQueryParams.host    = requestTokenURLWithQueryParams.host;
-        requestTokenURLWithoutQueryParams.path    = requestTokenURLWithQueryParams.path;
-        
-        requestTokenURLWithQueryParams.queryItems = tokenRequestQueryArray;
-        
-        // Request Token URL. This URL is used to generate URL base string -> percetnageEncode(URL)
-        // requestTokenURL = requestTokenURLWithQueryParams.url!;
-        
-        // Percentage encode each query value:
-        var i:Int = 0;
-        for _ in requestTokenURLWithQueryParams.queryItems!{
-            requestTokenURLWithQueryParams.queryItems?[i].value = requestTokenURLWithQueryParams.queryItems?[i].value?.RFC3986URLEncoded;
-            i += 1;
-        }
-        
-        // Generate URL Base String [GET/POST] + & + [percetage encoded current URL] + "&" + [percentage encoded query params, again!]
-        requestTokenURLBaseSring = "GET" + "&" + (requestTokenURLWithoutQueryParams.url?.absoluteString.RFC3986URLEncoded)! + "&" + (requestTokenURLWithQueryParams.query?.RFC3986URLEncoded)!;
-        
-        
-        // Generate signature key [percentage encoded]
-        signatureKey = String(flickrConstants.kSecretKey + "&" + requestTokenSecret); //.RFC3986URLEncoded;
-        
-        // Generate oAuth Signature as SHA1 of current URL Base String, and store it to sharedInstance
-        oauthSignature = requestTokenURLBaseSring.hmac(algorithm: HMACAlgorithm.SHA1, key: signatureKey);
-        oauthSignature = oauthSignature.RFC3986URLEncoded;
-        // FlickrSessionAuthorization.sharedInstance.setOauthSignature(oauthSignature: oauthSignature);
-        
-        // Append new Query Parameter (oauth_signature) to existing URL
-        let tempArray:[URLQueryItem] = [NSURLQueryItem(name: "oauth_signature", value: oauthSignature) as URLQueryItem];
-        // flickrInsertQueryParamsLexiToURL(url: &requestTokenURL, aditionalQueryArray: tempArray)
-        requestTokenURLWithQueryParams = flickrInsertQueryParamsLexiToURLComponents(urlComponents: requestTokenURLWithQueryParams, aditionalQueryArray: tempArray)
-        
-        print("Generated requestTokenURL: " + (requestTokenURLWithQueryParams.url?.absoluteURL.absoluteString)!);
-*/
-        
-        
-        
         
         let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
@@ -375,15 +314,9 @@ class flickrHelperMethodes {
     
     // Generate Access Token complete api Request
     static func flickrGenerateAccessTokenRequest(requestToken:flickrRequestToken, userAuthorization:flickrUserAuthorization) -> flickrAPIRequest {
-        // var accessTokenURLBaseSring:String = "";
-        // var signatureKey:String            = "";
-        // var oauthSignature:String          = "";
         
         let accessTokenURL:URL = flickrGetAccessTokenBaseURL();
         var accessTokenURLWithQueryParams:NSURLComponents = NSURLComponents();
-        // var accessTokenURLWithoutQueryParams:NSURLComponents = NSURLComponents();
-        
-        
         
         accessTokenURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
             httpRequestURL: accessTokenURL,
@@ -391,49 +324,6 @@ class flickrHelperMethodes {
             tokenSecret: FlickrSessionAuthorization.sharedInstance.getRequestToken().oauthTokenSecret,
             queryPercentageEncode: true
         );
-        
-        
-/*
-        accessTokenURLWithQueryParams.scheme = accessTokenURL.scheme;
-        accessTokenURLWithQueryParams.host   = accessTokenURL.host;
-        accessTokenURLWithQueryParams.path   = accessTokenURL.path;
-        
-        accessTokenURLWithoutQueryParams.scheme = accessTokenURLWithQueryParams.scheme;
-        accessTokenURLWithoutQueryParams.host   = accessTokenURLWithQueryParams.host;
-        accessTokenURLWithoutQueryParams.path   = accessTokenURLWithQueryParams.path;
-        
-        
-        // generate list of query parameters
-        accessTokenURLWithQueryParams.queryItems = flickrSortQueryParamsLexi(inputQeryArray: flickrGenerateAccessTokenStartParams());
-        
-        // percentage encode each query value
-        var i:Int = 0;
-        for _ in accessTokenURLWithQueryParams.queryItems!{
-            accessTokenURLWithQueryParams.queryItems?[i].value = accessTokenURLWithQueryParams.queryItems?[i].value?.RFC3986URLEncoded;
-            i += 1;
-        }
-        
-        
-        // Generate URL Base String [GET/POST] + & + [percetage encoded current URL] + "&" + [percentage encoded query params, again!]
-        accessTokenURLBaseSring = "GET" + "&" + (accessTokenURLWithoutQueryParams.url?.absoluteString.RFC3986URLEncoded)! + "&" + (accessTokenURLWithQueryParams.query?.RFC3986URLEncoded)!;
-        
-        // Generate signature key [percentage encoded]
-        signatureKey = String(flickrConstants.kSecretKey + "&" + FlickrSessionAuthorization.sharedInstance.getRequestToken().oauthTokenSecret);
-        
-        // Generate oAuth Signature as SHA1 of current URL Base String, and store it to sharedInstance
-        oauthSignature = accessTokenURLBaseSring.hmac(algorithm: HMACAlgorithm.SHA1, key: signatureKey);
-        oauthSignature = oauthSignature.RFC3986URLEncoded;
-
-        // Append new Query Parameter (oauth_signature) to existing URL
-        let tempArray:[URLQueryItem] = [NSURLQueryItem(name: "oauth_signature", value: oauthSignature) as URLQueryItem];
-        
-        accessTokenURLWithQueryParams = flickrInsertQueryParamsLexiToURLComponents(urlComponents: accessTokenURLWithQueryParams, aditionalQueryArray: tempArray)
-
-        print("Generated accessTokenURL: " + (accessTokenURLWithQueryParams.url?.absoluteURL.absoluteString)!);
-        
-        
-        
-*/
         
         let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
@@ -596,6 +486,7 @@ class flickrHelperMethodes {
         return queryParams
     }
     
+    // Generate Access Token Start Query parameters -> parameters without oauth signature
     private static func flickrGenerateAccessTokenStartParams() -> [URLQueryItem] {
         let queryParams:[URLQueryItem] = [
             URLQueryItem(name: "oauth_nonce", value: flickrHelperMethodes.flickrGenerateOauthNonce()),
@@ -642,14 +533,6 @@ class flickrHelperMethodes {
         return queryParams
     }
     
-    
-    // Generate Authorization User Query parameters
-//    private static func flickrGenerateAuthorizationUserParams() -> [URLQueryItem] {
-//        let queryParams:[URLQueryItem] = [
-//            URLQueryItem(name:)
-//        
-//        ]
-//    }
     
     // Sort array of Query
     private static func flickrSortQueryParamsLexi(inputQeryArray: [URLQueryItem]) -> [URLQueryItem] {

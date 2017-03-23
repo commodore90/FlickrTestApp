@@ -124,7 +124,7 @@
                                 <state key="normal" title="Plane"/>
                                 <connections>
                                     <action selector="PlaneButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="oOP-BY-YL4"/>
-                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPlaneSegue" id="J0g-s8-2Jt"/>
+                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoPlaneSegue" id="J0g-s8-2Jt"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhg-ma-Qw9">
@@ -191,6 +191,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bQG-av-hzs"/>
+        <segue reference="yLI-tI-0ir"/>
     </inferredMetricsTieBreakers>
 </document>

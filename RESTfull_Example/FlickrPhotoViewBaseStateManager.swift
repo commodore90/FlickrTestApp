@@ -58,7 +58,7 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
      */
 
     // func fetchPhoto(photoTag:String) {
-    func fetchPhoto() {
+    func fetchPhoto(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
         var photoContext:flickrPhotoContext = flickrPhotoContext.init();
         var photoIterator:Int?;
         
@@ -77,9 +77,11 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
                     case .Success(let data):
                         // Load and show some image
                         self.photoViewDelegate?.showFlickrPhoto(photo: UIImage(data: data)!)
+                        completionHandler(AsyncResult.Success(true));
                         break;
                     case .Failure(let downloadPhotoError):
                         print("Download Photo Error: \(downloadPhotoError)");
+                        completionHandler(AsyncResult.Failure(downloadPhotoError));
                     }
                 }
                 

@@ -14,7 +14,6 @@ class FlickrPhotoSelectViewController: UIViewController {
     var planeButtonTapped:Bool = false;
     var bikeButtonTapped:Bool  = false;
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

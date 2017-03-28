@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RESTfull_Example/FlickrUserAuthenticationView.swift"
-            timestampString = "511800216.269554"
+            timestampString = "512309415.404214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "webView(_:shouldStartLoadWith:navigationType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -159,70 +159,6 @@
                   startingLineNumber = "35"
                   endingLineNumber = "35"
                   offsetFromSymbolStart = "2226">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RESTfull_Example/FlickrPhotoViewController.swift"
-            timestampString = "511969159.520988"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RESTfull_Example/FlickrPhotoViewBaseStateManager.swift"
-            timestampString = "511980428.164315"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "fetchPhoto()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RESTfull_Example.FlickrPhotoViewBaseStateManager.fetchPhoto () -&gt; ()"
-                  moduleName = "RESTfull_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/FlickrPhotoViewBaseStateManager.swift"
-                  timestampString = "511973062.391128"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "59">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RESTfull_Example.FlickrPhotoViewBaseStateManager.(fetchPhoto () -&gt; ()).(closure #1)"
-                  moduleName = "RESTfull_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stefanmiskovic/workarea/RESTfull_Example/RESTfull_Example/FlickrPhotoViewBaseStateManager.swift"
-                  timestampString = "511973062.393429"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "40">
                </Location>
             </Locations>
          </BreakpointContent>

@@ -22,7 +22,7 @@ protocol FlickrPhotoViewStateManagerProtocol: class {
     */
     func testIfUserIsLoggedIn();
     
-    func fetchPhoto();// photoTag:String
+    func fetchPhoto(completionHandler: @escaping (AsyncResult<Bool>) -> ());// photoTag:String
     // func fetchCustomPhoto();
 
 }

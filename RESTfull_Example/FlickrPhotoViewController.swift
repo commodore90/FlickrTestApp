@@ -10,8 +10,11 @@ import UIKit
 
 class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProtocol {
 
-    @IBOutlet weak var flickrImageView: UIImageView!
+    @IBOutlet weak var flickrImageView: UIImageView!;
+    @IBOutlet weak var flickrDownloadProgressSpinner: UIActivityIndicatorView!;
     
+    
+    var loadingSpinner: ProgressIndicator?;
     /*
         API instances
     */
@@ -32,6 +35,21 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     /*
      Main Application Behavior
     */
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // loadingSpinner = ProgressIndicator(inview: self.view, loadingViewColor: UIColor.blue, indicatorColor: UIColor.gray, msg: "Loading Photo")
+        // loadingSpinner!.stop();
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Spinner
+        loadingSpinner = ProgressIndicator.init(inview: self.view, loadingViewColor: UIColor.gray, indicatorColor: UIColor.red, msg: "Loading Photo");
+        self.view.addSubview(loadingSpinner!)
+        
+        self.loadingSpinner!.start();
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,16 +70,26 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
         flickrImageView.contentMode   = UIViewContentMode.scaleAspectFit;
         flickrImageView.clipsToBounds = true;
         
-        
-        /*
-            test if User is logged in
-        */
-        self.stateManagerDelegate?.testIfUserIsLoggedIn();
-        
-        /*
-            download image and show it
-        */
-        self.stateManagerDelegate?.fetchPhoto();
-        
+        // DispatchQueue.global().async {
+            /*
+                test if User is logged in
+            */
+            self.stateManagerDelegate?.testIfUserIsLoggedIn();
+            
+            /*
+                download image and show it
+            */
+            self.stateManagerDelegate?.fetchPhoto() { (completion) in
+                switch completion {
+                case .Success(_):
+                    self.loadingSpinner?.stop();
+                    break;
+                case .Failure(let fetchPhotoError):
+                    print("Photo Load failed: \(fetchPhotoError)")
+                    break;
+                }
+                
+            }
+        // }
     }
 }

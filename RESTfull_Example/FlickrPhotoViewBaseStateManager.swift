@@ -13,10 +13,6 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
     
     weak var photoViewDelegate: FlickrPhotoViewControllerProtocol? // internal ?
     
-    // class var photoTag:String {
-    //     return "";
-    // }
-    
     // var photoTagTest:String?
     var photoTag:String?
     
@@ -32,6 +28,7 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
         Initializer
     */
     init () {
+        
     }
     
     init (photoTag: String) { // photoTagTest
@@ -57,22 +54,21 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
      Search images by photo tag and show it
      */
 
-    // func fetchPhoto(photoTag:String) {
-    func fetchPhoto(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
+    func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // added new argument, photo context
         var photoContext:flickrPhotoContext = flickrPhotoContext.init();
         var photoIterator:Int?;
         
-        self.flickrPhotoAPI.flickrPhotosSearchByTag(photoTag: self.photoTag!) { (photosSearch) in
+        // self.flickrPhotoAPI.flickrPhotosSearchByTag(photoTag: self.photoTag!) { (photosSearch) in
             
-            switch photosSearch {
+            // switch photosSearch {
                 
-            case .Success(let photoContextArrayRsp) :
-                photoIterator = Int(arc4random_uniform(UInt32(photoContextArrayRsp.count)))
-                photoContext = photoContextArrayRsp[photoIterator!];
+            // case .Success(let photoContextArrayRsp):
+                // photoIterator = Int(arc4random_uniform(UInt32(photoContextArrayRsp.count)))
+                // photoContext = photoContextArrayRsp[photoIterator!];
                 /*
                  Download Photo
                  */
-                self.flickrPhotoAPI.flickrDownloadPhotoFromURL(photoContext: photoContext) { (downloadPhoto) in
+                self.flickrPhotoAPI.flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: photoContext) { (downloadPhoto) in
                     switch downloadPhoto {
                     case .Success(let data):
                         // Load and show some image
@@ -85,12 +81,28 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
                     }
                 }
                 
-                print("Search Complete!");
+                // print("Search Complete!");
+                // break;
+//            case .Failure(let photosSearchError):
+//                print("Photos Search error!: \(photosSearchError)");
+//                break;
+//                
+//            }
+//        }
+    }
+    
+    /*
+    Get Photo info
+    */
+    func getPhotoInfo(photoContext: flickrPhotoContext) {
+        self.flickrPhotoAPI.flickrGetPhotoInfo(photoContext: photoContext) { (photoInfo) in
+            switch photoInfo {
+            case .Success(let photoInfoRsp):
+                print("Info Response");
                 break;
-            case .Failure(let photosSearchError):
-                print("Photos Search error!: \(photosSearchError)");
+            case .Failure(let photoInfoError):
+                print("Photo Info error");
                 break;
-                
             }
         }
     }

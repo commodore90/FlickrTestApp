@@ -97,6 +97,90 @@
             </objects>
             <point key="canvasLocation" x="1334" y="466"/>
         </scene>
+        <!--Flickr Table Photo Select View Controller-->
+        <scene sceneID="gzS-1D-cLC">
+            <objects>
+                <tableViewController id="NWR-Wu-MQd" customClass="FlickrTablePhotoSelectViewController" customModule="RESTfull_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="NQd-Yg-LmK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FlickrTablePhotoSelectViewCell" rowHeight="90" id="jv8-Us-eU6" customClass="FlickrTablePhotoSelectViewCell" customModule="RESTfull_Example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jv8-Us-eU6" id="LTX-50-z8o">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BBK-HK-JpZ">
+                                            <rect key="frame" x="6" y="1" width="100" height="75"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Eb-0U-lPb">
+                                            <rect key="frame" x="118" y="14" width="120" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mz4-JX-5tZ">
+                                            <rect key="frame" x="118" y="26" width="120" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nI7-Ba-dFK">
+                                            <rect key="frame" x="118" y="39" width="120" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oG2-AG-7ZA">
+                                            <rect key="frame" x="252" y="25" width="120" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5z-as-TAu">
+                                            <rect key="frame" x="252" y="14" width="120" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmb-E4-OjR">
+                                            <rect key="frame" x="252" y="38" width="120" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="photoDateTaken" destination="nI7-Ba-dFK" id="6S4-wd-Qfe"/>
+                                    <outlet property="photoFormat" destination="Mz4-JX-5tZ" id="yoG-xc-sPP"/>
+                                    <outlet property="photoResolution" destination="B5z-as-TAu" id="sCh-Vm-Jxl"/>
+                                    <outlet property="photoThumbnail" destination="BBK-HK-JpZ" id="qyv-3l-TrE"/>
+                                    <outlet property="photoTitle" destination="6Eb-0U-lPb" id="emG-16-pyd"/>
+                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrShowFullSizePhoto" id="Bc6-49-QYC"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NWR-Wu-MQd" id="kc2-k6-Uza"/>
+                            <outlet property="delegate" destination="NWR-Wu-MQd" id="otg-pI-iJQ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oCo-gy-5QC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3189.5999999999999" y="465.51724137931041"/>
+        </scene>
         <!--Flickr Photo Select View Controller-->
         <scene sceneID="yAw-Uw-fBe">
             <objects>
@@ -115,7 +199,7 @@
                                 <state key="normal" title="Car"/>
                                 <connections>
                                     <action selector="CarButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="zP0-dg-1Dw"/>
-                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoCarSegue" id="bQG-av-hzs"/>
+                                    <segue destination="NWR-Wu-MQd" kind="show" identifier="flickrPresentPhotoCarSegue" id="cWJ-Th-CaG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTi-u8-l7N">
@@ -124,7 +208,7 @@
                                 <state key="normal" title="Plane"/>
                                 <connections>
                                     <action selector="PlaneButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="oOP-BY-YL4"/>
-                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoPlaneSegue" id="J0g-s8-2Jt"/>
+                                    <segue destination="NWR-Wu-MQd" kind="show" identifier="flickrPresentPhotoPlaneSegue" id="w5g-AZ-pJW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhg-ma-Qw9">
@@ -133,7 +217,7 @@
                                 <state key="normal" title="Bike"/>
                                 <connections>
                                     <action selector="BikeButtonTapped:" destination="Oig-gX-8ol" eventType="touchUpInside" id="qDH-TE-EqE"/>
-                                    <segue destination="b8O-Xz-QKA" kind="show" identifier="flickrPresentPhotoBikeSegue" id="yLI-tI-0ir"/>
+                                    <segue destination="NWR-Wu-MQd" kind="show" identifier="flickrPresentPhotoBikeSegue" id="l0q-4z-BHT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -171,7 +255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="odg-be-w0p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3304.8000000000002" y="465.51724137931041"/>
+            <point key="canvasLocation" x="4036" y="466"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nYh-f5-L6g">
@@ -191,6 +275,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yLI-tI-0ir"/>
+        <segue reference="w5g-AZ-pJW"/>
     </inferredMetricsTieBreakers>
 </document>

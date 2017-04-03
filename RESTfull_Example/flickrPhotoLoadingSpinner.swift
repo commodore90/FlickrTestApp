@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class ProgressIndicator: UIView {
+class FlickrProgressIndicator: UIView {
     
     var indicatorColor:UIColor
     var loadingViewColor:UIColor

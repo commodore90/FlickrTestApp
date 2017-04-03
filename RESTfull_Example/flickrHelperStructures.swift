@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct flickrOauthParams {
     
@@ -229,6 +230,10 @@ class flickrPhotoContext {
     var server:String;
     var farm:String;
     
+    var thumbURL:URL?;
+    var thumbPhoto:UIImage?;   // Data
+    var photoInfo:flickrPhotoInfo?;
+    
     init() {
         self.id     = "";
         self.secret = "";
@@ -236,10 +241,39 @@ class flickrPhotoContext {
         self.farm   = "";
     }
     
-    init (id:String, secret:String, server:String, farm:String) {
-        self.id     = id;
-        self.secret = secret;
-        self.server = server;
-        self.farm   = farm;
+    init (id:String, secret:String, server:String, farm:String, thumbURL:URL, photoInfo: flickrPhotoInfo) {
+        self.id        = id;
+        self.secret    = secret;
+        self.server    = server;
+        self.farm      = farm;
+        self.thumbURL  = thumbURL;
+        
+        let photoInfo = flickrPhotoInfo.init(
+            originalFormat: photoInfo.originalFormat!,
+            title:          photoInfo.dateTaken!,
+            dateTaken:      photoInfo.title!
+        );
+        
+        self.photoInfo = photoInfo;
     }
+
+}
+
+class flickrPhotoInfo {
+    var originalFormat:String?;
+    var title:String?;
+    var dateTaken:String?;
+
+    init() {
+        self.originalFormat = "";
+        self.title          = "";
+        self.dateTaken      = "";
+    }
+    
+    init(originalFormat:String, title:String, dateTaken:String) {
+        self.originalFormat = originalFormat;
+        self.title          = title;
+        self.dateTaken      = dateTaken;
+    }
+    
 }

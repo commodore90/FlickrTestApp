@@ -42,22 +42,22 @@ class FlickrPhotoSelectViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if ((segue.identifier?.range(of: "PresentPhoto")) != nil) {
             
-            let destinationVC:FlickrPhotoViewController = segue.destination as! FlickrPhotoViewController;
+            let destinationVC:FlickrTablePhotoSelectViewController = segue.destination as! FlickrTablePhotoSelectViewController; // FlickrPhotoViewController;
             
             if carButtonTapped {
-                let carStateManager:PhotoViewCarStateManager = PhotoViewCarStateManager.init();
+                let carStateManager:TablePhotoCarStateManager = TablePhotoCarStateManager.init(); // let carStateManager:PhotoViewCarStateManager = PhotoViewCarStateManager.init()
                 destinationVC.stateManagerDelegate = carStateManager;
             }
             
             
             if planeButtonTapped {
-                let planeStateManager:PhotoViewPlaneStateManager = PhotoViewPlaneStateManager.init();
+                let planeStateManager:TablePhotoPlaneStateManager = TablePhotoPlaneStateManager.init() // let planeStateManager:PhotoViewPlaneStateManager = PhotoViewPlaneStateManager.init();
                 destinationVC.stateManagerDelegate = planeStateManager;
             }
             
             
             if bikeButtonTapped {
-                let bikeStateManager:PhotoViewBikeStateManager = PhotoViewBikeStateManager.init();
+                let bikeStateManager:TablePhotoBikeStateManager = TablePhotoBikeStateManager.init(); // let bikeStateManager:PhotoViewBikeStateManager = PhotoViewBikeStateManager.init();
                 destinationVC.stateManagerDelegate = bikeStateManager;
             }
         }

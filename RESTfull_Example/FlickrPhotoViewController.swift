@@ -13,8 +13,12 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     @IBOutlet weak var flickrImageView: UIImageView!;
     @IBOutlet weak var flickrDownloadProgressSpinner: UIActivityIndicatorView!;
     
+    /*
+    Local Variables
+    */
+    var photoContextToPresent: flickrPhotoContext?;
+    var loadingSpinner: FlickrProgressIndicator?;
     
-    var loadingSpinner: ProgressIndicator?;
     /*
         API instances
     */
@@ -25,6 +29,7 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
         Implement delegate properties and methode
     */
     var stateManagerDelegate: FlickrPhotoViewStateManagerProtocol?;
+    var photoSelectViewReturnDelegate: FlickrPhotoSelectViewReturnProtocol?;
     
     func showFlickrPhoto(photo: UIImage) {
         DispatchQueue.main.async {
@@ -32,19 +37,29 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
         }
     }
     
+    
     /*
      Main Application Behavior
     */
     
+    override func viewWillDisappear(_ animated : Bool) {    // TableViewController Back button pressed!
+        super.viewWillDisappear(animated)
+        
+//        if (self.isMovingFromParentViewController){
+//            // Your code...
+//        }
+        
+        photoSelectViewReturnDelegate?.requestLoadingSpinerStop();
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
-        // loadingSpinner = ProgressIndicator(inview: self.view, loadingViewColor: UIColor.blue, indicatorColor: UIColor.gray, msg: "Loading Photo")
-        // loadingSpinner!.stop();
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Spinner
-        loadingSpinner = ProgressIndicator.init(inview: self.view, loadingViewColor: UIColor.gray, indicatorColor: UIColor.red, msg: "Loading Photo");
+        loadingSpinner = FlickrProgressIndicator.init(inview: self.view, loadingViewColor: UIColor.gray, indicatorColor: UIColor.red, msg: "Loading Photo");
         self.view.addSubview(loadingSpinner!)
         
         self.loadingSpinner!.start();
@@ -70,26 +85,36 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
         flickrImageView.contentMode   = UIViewContentMode.scaleAspectFit;
         flickrImageView.clipsToBounds = true;
         
-        // DispatchQueue.global().async {
-            /*
-                test if User is logged in
-            */
-            self.stateManagerDelegate?.testIfUserIsLoggedIn();
-            
-            /*
-                download image and show it
-            */
-            self.stateManagerDelegate?.fetchPhoto() { (completion) in
-                switch completion {
-                case .Success(_):
-                    self.loadingSpinner?.stop();
-                    break;
-                case .Failure(let fetchPhotoError):
-                    print("Photo Load failed: \(fetchPhotoError)")
-                    break;
-                }
-                
+        
+        self.fetchPhoto(photoContext: photoContextToPresent!) { (fetchPhotoRsp) in
+            switch (fetchPhotoRsp) {
+            case .Success(let fetchPhotoComplete):
+                self.loadingSpinner!.stop();
+                break;
+            case .Failure(let fetchPhotoError):
+                break;
             }
-        // }
+        }
+        
     }
+    
+    func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // added new argument, photo context
+        // var photoContext:flickrPhotoContext = flickrPhotoContext.init();
+        // var photoIterator:Int?;
+        
+        self.flickrPhotoAPI.flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: photoContext) { (downloadPhoto) in
+            switch downloadPhoto {
+            case .Success(let data):
+                // Load and show some image
+                self.showFlickrPhoto(photo: UIImage(data: data)!)
+                self.loadingSpinner?.stop();
+                completionHandler(AsyncResult.Success(true));
+                break;
+            case .Failure(let downloadPhotoError):
+                print("Download Photo Error: \(downloadPhotoError)");
+                completionHandler(AsyncResult.Failure(downloadPhotoError));
+            }
+        }
+    }
+
 }

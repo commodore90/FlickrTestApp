@@ -340,8 +340,6 @@ class flickrHelperMethodes {
     /*
         Generate Image API request
     */
-
-    //static func flickrGenerate
     
     static func fickrGenerateLoginTestRequest() -> flickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
@@ -367,6 +365,7 @@ class flickrHelperMethodes {
         return apiRequest
     }
     
+    // Flickr Photo API
     static func fickrGeneratePhotosSearchRequest(photoTag:String) -> flickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
         var searchURLWithQueryParams:NSURLComponents = NSURLComponents.init();
@@ -393,8 +392,7 @@ class flickrHelperMethodes {
         return apiRequest
     }
     
-    // Flickr Photo API
-    static func flickrGenerateDownloadPhotoFromURLReQuest(photoContext: flickrPhotoContext) -> flickrAPIRequest {
+    static func flickrGenerateDownloadPhotoFromPhotoContextURLRequest(photoContext: flickrPhotoContext) -> flickrAPIRequest {
         let flickrStaticPhotoDownloadURLHost:String = "farm" + photoContext.farm + ".staticflickr.com";
         let flickrStaticPhotoDownloadURLPath:String = "/" + photoContext.server + "/" + photoContext.id + "_" + photoContext.secret + ".jpg";   // format info should be provided externaly!
         
@@ -409,6 +407,73 @@ class flickrHelperMethodes {
         
         return apiRequest;
     }
+    
+    static func flickrGenerateDownloadPhotoURLRequest(photoURL:URL) -> flickrAPIRequest {
+        let flickrStaticPhotoDownloadURL:URL = photoURL;
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrStaticPhotoDownloadURL.host!,
+            path: flickrStaticPhotoDownloadURL.path,
+            headers: nil,
+            query: nil,
+            body: nil
+        );
+        
+        return apiRequest;
+    }
+    
+    static func flickrGeneratePhotoInfoRequest(photoId: String) -> flickrAPIRequest {
+        let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
+        var getInfoURLWithQueryParams:NSURLComponents = NSURLComponents.init();
+        let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
+
+        // manage query parameters:
+        getInfoURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: flickrAPIsrvice,
+            requestQueryArray: flickrGeneratePhotoInfoStartParams(accessTokenString: accessTokenString, photoId: photoId),
+            tokenSecret: FlickrSessionAuthorization.sharedInstance.getAccessToken().accessTokenSecret
+        );
+        
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrConstants.kflickrAPIHost,
+            path: flickrAPIsrvice.path,
+            headers: nil,
+            query: getInfoURLWithQueryParams.queryItems,
+            body: nil
+        );
+        
+        return apiRequest;
+    }
+    
+    static func flickrGeneratePhotoSizesRequest(photoId:String) -> flickrAPIRequest {
+        let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
+        var getInfoURLWithQueryParams:NSURLComponents = NSURLComponents.init();
+        let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
+        
+        // manage query parameters:
+        getInfoURLWithQueryParams = flickrProcessAndAddSignatureQueryParameterToURL(
+            httpRequestURL: flickrAPIsrvice,
+            requestQueryArray: flickrGeneratePhotoGetSizesStartParams(accessTokenString: accessTokenString, photoId: photoId),
+            tokenSecret: FlickrSessionAuthorization.sharedInstance.getAccessToken().accessTokenSecret
+        );
+        
+        
+        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+            httpMethod: RequestMethod.GET,
+            host: flickrConstants.kflickrAPIHost,
+            path: flickrAPIsrvice.path,
+            headers: nil,
+            query: getInfoURLWithQueryParams.queryItems,
+            body: nil
+        );
+        
+        return apiRequest;
+
+    }
+    
     
     /*
         Internal helper methodes
@@ -448,6 +513,7 @@ class flickrHelperMethodes {
         return accessTokenURL.url!;
     }
     
+    // generates Flickr API Base URL ->  https://api.flickr.com/services/rest/
     private static func flickrGenerateAPIBaseURL() -> URL {
         let flickrAPIBaseURL:NSURLComponents = NSURLComponents.init();
         
@@ -528,11 +594,35 @@ class flickrHelperMethodes {
             URLQueryItem(name: "oauth_version", value: flickrConstants.kOauthVersion),
             URLQueryItem(name: "oauth_token", value: accessTokenString),
             URLQueryItem(name: "tags", value: photoTag),
+            URLQueryItem(name: "extras", value: "url_t,+original_format,+date_taken"),                              // get thumbnail URLs
             URLQueryItem(name: "method", value: "flickr.photos.search")
             ];
         return queryParams
     }
     
+    private static func flickrGeneratePhotoInfoStartParams(accessTokenString:String, photoId:String) -> [URLQueryItem] {
+        let queryParams:[URLQueryItem] = [
+            URLQueryItem(name: "nojsoncallback", value: "1"),
+            URLQueryItem(name: "format", value: "json"),
+            URLQueryItem(name: "photo_id", value: photoId),
+            URLQueryItem(name: "oauth_consumer_key", value: flickrConstants.kApiKey),
+            URLQueryItem(name: "oauth_token", value: accessTokenString),
+            URLQueryItem(name: "method", value: "flickr.photos.getInfo")
+        ];
+        return queryParams
+    }
+    
+    private static func flickrGeneratePhotoGetSizesStartParams(accessTokenString:String, photoId:String) -> [URLQueryItem] {
+        let queryParams:[URLQueryItem] = [
+            URLQueryItem(name: "nojsoncallback", value: "1"),
+            URLQueryItem(name: "format", value: "json"),
+            URLQueryItem(name: "photo_id", value: photoId),
+            URLQueryItem(name: "oauth_consumer_key", value: flickrConstants.kApiKey),
+            URLQueryItem(name: "oauth_token", value: accessTokenString),
+            URLQueryItem(name: "method", value: "flickr.photos.getSizes")
+        ];
+        return queryParams
+    }
     
     // Sort array of Query
     private static func flickrSortQueryParamsLexi(inputQeryArray: [URLQueryItem]) -> [URLQueryItem] {

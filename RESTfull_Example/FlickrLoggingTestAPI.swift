@@ -12,9 +12,9 @@ import Foundation
 class FlickrLoggingTestAPI : FlickrRestFullBaseAPIManager{
     
     
-    func flickrLoginTest(completionHandler: @escaping (AsyncResult<Bool>) -> ()) { // accessToken: flickrAccessToken, 
+    func flickrLoginTest(completionHandler: @escaping (AsyncResult<Bool>) -> ()) { // accessToken: FlickrAccessToken, 
 
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.fickrGenerateLoginTestRequest();
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.fickrGenerateLoginTestRequest();
         // var flickrLoginResponse:flickrResponseDictionary = flickrResponseDictionary.init();
         var responseString:String?;
         var oauthCompletion:Bool = false;
@@ -32,7 +32,7 @@ class FlickrLoggingTestAPI : FlickrRestFullBaseAPIManager{
                 
                     // Parse response JSON data
                     // var parserKeys:[String] = ["user", "stat"]
-                    // responseJson = flickrHelperMethodes.flickrJSONParser(data: flickrResponse.responseData!)!
+                    // responseJson = FlickrHelperMethodes.flickrJSONParser(data: flickrResponse.responseData!)!
                     
                     oauthCompletion = true;
                     completionHandler(AsyncResult.Success(oauthCompletion));

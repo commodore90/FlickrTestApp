@@ -65,7 +65,7 @@ class FlickrProgressIndicator: UIView {
     }
     
     func  start(){
-        //check if view is already there or not. if again started
+        //check if view is already there or not.
         if !self.subviews.contains(messageFrame) {
             
             activityIndicator.startAnimating();

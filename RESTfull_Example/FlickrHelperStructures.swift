@@ -21,7 +21,6 @@ enum RequestMethod: String {
     case POST   = "POST"
     case PUT    = "PUT"
     case DELETE = "DELETE"
-    case NOTSET = "NOTSET"
 }
 
 enum ResponseFormat: String {
@@ -41,7 +40,7 @@ enum AsyncResult<T> {
     Flickr Token Classes
 */
 
-class flickrRequestToken {
+class FlickrRequestToken {
     var oauthToken:String;
     var oauthTokenSecret:String;
     var oauthCallbackConfirmed:String;
@@ -60,7 +59,7 @@ class flickrRequestToken {
     
     init(requestTokenDictionary:flickrResponseDictionary) {
         // TODO: instead of print use assert
-        if let oauthCallbackConfirmed:String = requestTokenDictionary[flickrConstants.kOauthCallbackConfirmed] {
+        if let oauthCallbackConfirmed:String = requestTokenDictionary[FlickrConstants.kOauthCallbackConfirmed] {
             self.oauthCallbackConfirmed = oauthCallbackConfirmed;
         }
         else {
@@ -68,7 +67,7 @@ class flickrRequestToken {
             self.oauthCallbackConfirmed = "";
         }
         
-        if let oauthToken:String = requestTokenDictionary[flickrConstants.kOauthToken] {
+        if let oauthToken:String = requestTokenDictionary[FlickrConstants.kOauthToken] {
             self.oauthToken = oauthToken;
         }
         else {
@@ -76,7 +75,7 @@ class flickrRequestToken {
             self.oauthToken = "";
         }
 
-        if let oauthTokenSecret:String = requestTokenDictionary[flickrConstants.kOauthTokenSecret] {
+        if let oauthTokenSecret:String = requestTokenDictionary[FlickrConstants.kOauthTokenSecret] {
             self.oauthTokenSecret = oauthTokenSecret;
         }
         else {
@@ -86,7 +85,7 @@ class flickrRequestToken {
     }
 }
 
-class flickrAccessToken {
+class FlickrAccessToken {
     var fullName:String;
     var accessToken:String;
     var accessTokenSecret:String;
@@ -110,49 +109,49 @@ class flickrAccessToken {
     }
     
     init(accessTokenDictionary:flickrResponseDictionary) {
-        if let fullName:String = accessTokenDictionary[flickrConstants.kOauthFullName] {
+        if let fullName:String = accessTokenDictionary[FlickrConstants.kOauthFullName] {
             self.fullName = fullName;
         }
         else {
-            print("ERROR! Access Token is incomplete!" + flickrConstants.kOauthFullName)
+            print("ERROR! Access Token is incomplete!" + FlickrConstants.kOauthFullName)
             self.fullName = "";
         }
         
-        if let accessToken:String = accessTokenDictionary[flickrConstants.kOauthToken] {
+        if let accessToken:String = accessTokenDictionary[FlickrConstants.kOauthToken] {
             self.accessToken = accessToken;
         }
         else {
-            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthToken);
+            print("ERROR! Request Token is incomplete!" + FlickrConstants.kOauthToken);
             self.accessToken = "";
         }
         
-        if let accessTokenSecret = accessTokenDictionary[flickrConstants.kOauthTokenSecret] {
+        if let accessTokenSecret = accessTokenDictionary[FlickrConstants.kOauthTokenSecret] {
             self.accessTokenSecret = accessTokenSecret;
         }
         else {
-            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthTokenSecret);
+            print("ERROR! Request Token is incomplete!" + FlickrConstants.kOauthTokenSecret);
             self.accessTokenSecret = "";
         }
         
-        if let userNsid:String = accessTokenDictionary[flickrConstants.kOauthUserNsid] {
+        if let userNsid:String = accessTokenDictionary[FlickrConstants.kOauthUserNsid] {
             self.userNsid = userNsid;
         }
         else {
-            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthUserNsid);
+            print("ERROR! Request Token is incomplete!" + FlickrConstants.kOauthUserNsid);
             self.userNsid = "";
         }
         
-        if let userName = accessTokenDictionary[flickrConstants.kOauthUserName] {
+        if let userName = accessTokenDictionary[FlickrConstants.kOauthUserName] {
             self.userName = userName;
         }
         else {
-            print("ERROR! Request Token is incomplete!" + flickrConstants.kOauthUserName);
+            print("ERROR! Request Token is incomplete!" + FlickrConstants.kOauthUserName);
             self.userName = "";
         }
     }
 }
 
-class flickrUserAuthorization {
+class FlickrUserAuthorization {
     var oauthVerifier:String;
     
     init() {
@@ -211,7 +210,7 @@ extension flickrAPIRequest {
     func getURL() -> URL {
         let requestURL:NSURLComponents = NSURLComponents.init();
         
-        requestURL.scheme     = flickrConstants.kBaseHostURLScheme;
+        requestURL.scheme     = FlickrConstants.kBaseHostURLScheme;
         requestURL.host       = self.host;
         requestURL.path       = self.path;
         requestURL.queryItems = self.query;

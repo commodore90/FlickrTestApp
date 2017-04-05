@@ -19,11 +19,7 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
     // API instances
     var flickrLoggingAPI:FlickrLoggingTestAPI = FlickrLoggingTestAPI.init();
     var flickrPhotoAPI:FlickrPhotoAPI         = FlickrPhotoAPI.init();
-    
-    // init(photoTag:String) {
-    //     self.photoTag = photoTag;
-    // }
-    
+
     /*
         Initializer
     */
@@ -32,7 +28,6 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
     }
     
     init (photoTag: String) { // photoTagTest
-        // self.photoTagTest = photoTagTest;
         self.photoTag = photoTag;
     }
     
@@ -55,40 +50,24 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
      */
 
     func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // added new argument, photo context
-        var photoContext:flickrPhotoContext = flickrPhotoContext.init();
-        var photoIterator:Int?;
-        
-        // self.flickrPhotoAPI.flickrPhotosSearchByTag(photoTag: self.photoTag!) { (photosSearch) in
-            
-            // switch photosSearch {
-                
-            // case .Success(let photoContextArrayRsp):
-                // photoIterator = Int(arc4random_uniform(UInt32(photoContextArrayRsp.count)))
-                // photoContext = photoContextArrayRsp[photoIterator!];
-                /*
-                 Download Photo
-                 */
-                self.flickrPhotoAPI.flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: photoContext) { (downloadPhoto) in
-                    switch downloadPhoto {
-                    case .Success(let data):
-                        // Load and show some image
-                        self.photoViewDelegate?.showFlickrPhoto(photo: UIImage(data: data)!)
-                        completionHandler(AsyncResult.Success(true));
-                        break;
-                    case .Failure(let downloadPhotoError):
-                        print("Download Photo Error: \(downloadPhotoError)");
-                        completionHandler(AsyncResult.Failure(downloadPhotoError));
-                    }
-                }
-                
-                // print("Search Complete!");
-                // break;
-//            case .Failure(let photosSearchError):
-//                print("Photos Search error!: \(photosSearchError)");
-//                break;
-//                
-//            }
-//        }
+
+        let photoContext:flickrPhotoContext = flickrPhotoContext.init();
+
+        /*
+         Download Photo
+         */
+        self.flickrPhotoAPI.flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: photoContext) { (downloadPhoto) in
+            switch downloadPhoto {
+            case .Success(let data):
+                // Load and show some image
+                self.photoViewDelegate?.showFlickrPhoto(photo: UIImage(data: data)!)
+                completionHandler(AsyncResult.Success(true));
+                break;
+            case .Failure(let downloadPhotoError):
+                print("Download Photo Error: \(downloadPhotoError)");
+                completionHandler(AsyncResult.Failure(downloadPhotoError));
+            }
+        }
     }
     
     /*
@@ -97,11 +76,10 @@ class FlickrPhotoViewBaseStateManager : FlickrPhotoViewStateManagerProtocol {
     func getPhotoInfo(photoContext: flickrPhotoContext) {
         self.flickrPhotoAPI.flickrGetPhotoInfo(photoContext: photoContext) { (photoInfo) in
             switch photoInfo {
-            case .Success(let photoInfoRsp):
-                print("Info Response");
+            case .Success(_):
                 break;
             case .Failure(let photoInfoError):
-                print("Photo Info error");
+                print("Photo Info error \(photoInfoError)");
                 break;
             }
         }

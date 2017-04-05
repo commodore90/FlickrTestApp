@@ -14,4 +14,8 @@ class TablePhotoBikeStateManager : TablePhotoBaseStateManager {
         super.init(tablePhotoKind: "Bike");
     }
     
+    func fetchItems() {
+        //
+        
+    }
 }

@@ -29,16 +29,12 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
         self.flickrWebView.backgroundColor = UIColor.clear
         
         // prepare User Authorization URL
-        let requestToken:flickrRequestToken = FlickrSessionAuthorization.sharedInstance.getRequestToken();
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGenerateUserAuthorizationRequest(requestToken: requestToken);
+        let requestToken:FlickrRequestToken = FlickrSessionAuthorization.sharedInstance.getRequestToken();
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateUserAuthorizationRequest(requestToken: requestToken);
         
         let requestURL:URL     = apiRequest.getURL();
         let request:URLRequest = URLRequest(url: requestURL);
-        
-        // let requestUrl: URL = URL(string: flickrAuthenticationURLstr!)!
-        // let request = URLRequest(url: requestUrl)
-        
-        
+
         self.flickrWebView.loadRequest(request)
         
     }
@@ -50,12 +46,12 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
     //MARK: UIWebViewDelegate
     
     func webViewDidStartLoad(_ webView: UIWebView) {
-        print("web view did start loading!");
+        print("Authentication Web view did start loading!");
         self.flickrWebView.isHidden = false
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        print("web view did finish load");
+        print("Authentication Web view did finish load");
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
@@ -63,12 +59,12 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        var userAuthorization:flickrUserAuthorization?;
+        var userAuthorization:FlickrUserAuthorization?;
         
-        if ((request.url?.absoluteString.range(of: flickrConstants.kOauthCallback)) != nil) {
-            var parsedDictionary:[String:String] = flickrHelperMethodes.flickrResponseStringParser(responseString: (request.url?.absoluteString)!, flickrParseArguments: ["oauth_verifier"]);
+        if ((request.url?.absoluteString.range(of: FlickrConstants.kOauthCallback)) != nil) {
+            var parsedDictionary:[String:String] = FlickrHelperMethodes.flickrResponseStringParser(responseString: (request.url?.absoluteString)!, flickrParseArguments: ["oauth_verifier"]);
             
-            userAuthorization = flickrUserAuthorization.init(oauthVerifier: parsedDictionary["oauth_verifier"]!);
+            userAuthorization = FlickrUserAuthorization.init(oauthVerifier: parsedDictionary["oauth_verifier"]!);
             FlickrSessionAuthorization.sharedInstance.setUserAuthorizatrion(userAuthorization: userAuthorization!)
             print(request);
             
@@ -78,7 +74,7 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
             ) { (accessTokenCompletion) in
                 
                 switch accessTokenCompletion {
-                case .Success( _) :
+                case .Success( _):
                     print("Sueccessfuly Completed getOauthAccessToken!");
                     let controller = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FlickrPhotoSelectViewController");
                     
@@ -86,8 +82,8 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
                     self.navigationController?.setViewControllers([controller], animated: true);
                     
                     break;
-                case .Failure(let oauthError) :
-                    print("flickr oauth error!");
+                case .Failure(let oauthError):
+                    print("flickr oauth error! \(oauthError)");
                     break;
                 }
                 
@@ -98,4 +94,5 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
         
         return true
     }
+    
 }

@@ -17,12 +17,12 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
     /*
         Get Request Token from Flickr Server
     */
-    func getOAuthRequestToken(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // -> flickrRequestToken?
+    func getOAuthRequestToken(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // -> FlickrRequestToken?
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGenerateRequestTokenRequest();
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateRequestTokenRequest();
         var requestTokenResponse:flickrResponseDictionary = flickrResponseDictionary.init();
         var responseString:String?;
-        var requestToken:flickrRequestToken?;
+        var requestToken:FlickrRequestToken?;
         var oauthCompletion:Bool = false;
         
         // call flickr API methode for initiating http request
@@ -34,9 +34,9 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
                     print("completionHandler: getRequestToken response is returned to flickr restfull Flickr API!!!");
                     print("Response Data : " + String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!);
                     responseString = String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!;
-                    requestTokenResponse = flickrHelperMethodes.flickrResponseStringParser(responseString: responseString!, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
+                    requestTokenResponse = FlickrHelperMethodes.flickrResponseStringParser(responseString: responseString!, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
 
-                    requestToken = flickrRequestToken(requestTokenDictionary: requestTokenResponse);
+                    requestToken = FlickrRequestToken(requestTokenDictionary: requestTokenResponse);
                     
                     // self.requestToken = requestToken!;
                     
@@ -66,12 +66,12 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
      Get Access Token based on Request Token and Token Secret
      
      */
-    func getOAuthAccessToken(requestToken: flickrRequestToken, userAuthorization:flickrUserAuthorization, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
+    func getOAuthAccessToken(requestToken: FlickrRequestToken, userAuthorization:FlickrUserAuthorization, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGenerateAccessTokenRequest(requestToken: requestToken, userAuthorization: userAuthorization)
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateAccessTokenRequest(requestToken: requestToken, userAuthorization: userAuthorization)
         var accessTokenResponse:flickrResponseDictionary = flickrResponseDictionary.init();
         var responseString:String?;
-        var accessToken:flickrAccessToken?;
+        var accessToken:FlickrAccessToken?;
         
         super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
             
@@ -81,9 +81,9 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
                     print("completionHandler: getAccessToken response is returned to flickr restfull Flickr API!!!");
                     print("Response Data : " + String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!);
                     responseString = String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!;
-                    accessTokenResponse = flickrHelperMethodes.flickrResponseStringParser(responseString: responseString!, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
+                    accessTokenResponse = FlickrHelperMethodes.flickrResponseStringParser(responseString: responseString!, flickrParseArguments: ["oauth_token", "oauth_token_secret"]);
                     
-                    accessToken = flickrAccessToken.init(accessTokenDictionary: accessTokenResponse);
+                    accessToken = FlickrAccessToken.init(accessTokenDictionary: accessTokenResponse);
                     
                     // store access Token to shaterdInstance
                     FlickrSessionAuthorization.sharedInstance.setAccessToken(accessToken: accessToken!);

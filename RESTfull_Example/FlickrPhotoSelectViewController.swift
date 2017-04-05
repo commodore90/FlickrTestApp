@@ -9,10 +9,6 @@
 import UIKit
 
 class FlickrPhotoSelectViewController: UIViewController {
-
-    var carButtonTapped:Bool   = false;
-    var planeButtonTapped:Bool = false;
-    var bikeButtonTapped:Bool  = false;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,49 +18,29 @@ class FlickrPhotoSelectViewController: UIViewController {
     /*
      Selection View outlets
     */
-    @IBAction func CarButtonTapped(_ sender: UIButton) {
-        carButtonTapped = true;
-    }
-    
-    
-    @IBAction func PlaneButtonTapped(_ sender: UIButton) {
-        planeButtonTapped = true;
-    }
-    
-    
-    @IBAction func BikeButtonTapped(_ sender: UIButton) {
-        bikeButtonTapped = true;
-    }
-	
+
+    @IBOutlet weak var CarButton: UIButton!
+    @IBOutlet weak var PlaneButton: UIButton!
+    @IBOutlet weak var BikeButton: UIButton!
     
     // MARK: - Navigation
     // Before transition to FlickrPhotoviewController set delegate field
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if ((segue.identifier?.range(of: "PresentPhoto")) != nil) {
-            
-            let destinationVC:FlickrTablePhotoSelectViewController = segue.destination as! FlickrTablePhotoSelectViewController; // FlickrPhotoViewController;
-            
-            if carButtonTapped {
-                let carStateManager:TablePhotoCarStateManager = TablePhotoCarStateManager.init(); // let carStateManager:PhotoViewCarStateManager = PhotoViewCarStateManager.init()
-                destinationVC.stateManagerDelegate = carStateManager;
-            }
-            
-            
-            if planeButtonTapped {
-                let planeStateManager:TablePhotoPlaneStateManager = TablePhotoPlaneStateManager.init() // let planeStateManager:PhotoViewPlaneStateManager = PhotoViewPlaneStateManager.init();
-                destinationVC.stateManagerDelegate = planeStateManager;
-            }
-            
-            
-            if bikeButtonTapped {
-                let bikeStateManager:TablePhotoBikeStateManager = TablePhotoBikeStateManager.init(); // let bikeStateManager:PhotoViewBikeStateManager = PhotoViewBikeStateManager.init();
-                destinationVC.stateManagerDelegate = bikeStateManager;
-            }
-        }
         
-        carButtonTapped   = false;
-        planeButtonTapped = false;
-        bikeButtonTapped  = false;
+        let destinationVC:FlickrTablePhotoSelectViewController = segue.destination as! FlickrTablePhotoSelectViewController;
+        
+        if ((segue.identifier?.range(of: "flickrPresentPhotoCarSegue")) != nil) {
+            let carStateManager:TablePhotoCarStateManager = TablePhotoCarStateManager.init();
+            destinationVC.stateManagerDelegate = carStateManager;
+        }
+        else if ((segue.identifier?.range(of: "flickrPresentPhotoPlaneSegue")) != nil) {
+            let planeStateManager:TablePhotoPlaneStateManager = TablePhotoPlaneStateManager.init();
+            destinationVC.stateManagerDelegate = planeStateManager;
+        }
+        else if ((segue.identifier?.range(of: "flickrPresentPhotoBikeSegue")) != nil) {
+            let bikeStateManager:TablePhotoBikeStateManager = TablePhotoBikeStateManager.init();
+            destinationVC.stateManagerDelegate = bikeStateManager;
+        }
+    
     }
-
 }

@@ -16,8 +16,8 @@ class FlickrTablePhotoSelectViewCell: UITableViewCell {
     @IBOutlet weak var photoDateTaken: UILabel!
     
     @IBOutlet weak var photoResolution: UILabel!
-    // @IBOutlet weak var photoDateTaken2: UILabel!
-    // @IBOutlet weak var photoDateTaken3: UILabel!
+//    @IBOutlet weak var photoDateTaken2: UILabel!
+//    @IBOutlet weak var photoDateTaken3: UILabel!
     
     @IBOutlet weak var photoThumbnail: UIImageView!
     

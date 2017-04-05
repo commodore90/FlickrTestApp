@@ -46,11 +46,13 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
         self.stateManagerDelegate!.getPhotosContextArrayForKind() { (getPhotosContextArrayFinished) in
             switch (getPhotosContextArrayFinished) {
             case .Success:
+                
                 // Stop spinner
                 self.loadingSpinner!.stop();
                 
                 // data is ready, reload data in table
                 self.flickrRefreshPhotoTable();
+                
                 break;
             case .Failure(let getPhotoContextForKindError):
                 print("Error: \(getPhotoContextForKindError)");
@@ -58,12 +60,6 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
             }
         };
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     // MARK: - Table view data source
@@ -75,7 +71,7 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
     }
     
     /*
-    Tabel View Delegate methodes
+    Table View Delegate methodes
     */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -115,19 +111,17 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrool")
+        // print("scrool")
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
+
         if ((segue.identifier?.range(of: "flickrShowFullSizePhoto")) != nil) {
             
-            self.photoView = segue.destination as! FlickrPhotoViewController;
+            self.photoView = segue.destination as? FlickrPhotoViewController;
             self.photoView?.photoSelectViewReturnDelegate = self;
             
         }
@@ -136,6 +130,7 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
     /*
      SelectView return protocol methodes
      */
+    
     func requestLoadingSpinerStop() {
         
         self.spinnerStopRequest = true;

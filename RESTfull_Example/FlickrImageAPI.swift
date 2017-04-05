@@ -27,7 +27,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
     
     func flickrPhotosSearchByTag(photoTag:String, completionHandler: @escaping (AsyncResult<[flickrPhotoContext]>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.fickrGeneratePhotosSearchRequest(photoTag: photoTag);
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.fickrGeneratePhotosSearchRequest(photoTag: photoTag);
         var responseString:String?;
         var responseJson:NSDictionary = NSDictionary.init();
         var photoStatusArray:[flickrPhotoContext] = [];
@@ -41,7 +41,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
                     print("Response Data [flickrPhotosSearchByTag]: " + responseString!);
                     
                     // Parse response JSON data, check for status -> stat : ok
-                    responseJson = flickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!;
+                    responseJson = FlickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!;
                     
                     // Parse JSON Dictionary, and store: id, secret, farm, server for each photo
                     if let photoNumberInResponse:String = ((responseJson["photos"] as? NSDictionary)?.value(forKey: "total")) as? String {
@@ -86,7 +86,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
     
     func flickrGetPhotoInfo(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<flickrPhotoInfo>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGeneratePhotoInfoRequest(photoId: photoContext.id);
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGeneratePhotoInfoRequest(photoId: photoContext.id);
         var responseString:String?;
         var responseJson:NSDictionary = NSDictionary.init();
         let photoInfo:flickrPhotoInfo = flickrPhotoInfo.init();
@@ -99,7 +99,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
                     print("Response Data [flickrGetPhotoInfo]: " + responseString!);
                     
                     // Parse response JSON data, check for status
-                    responseJson = flickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!
+                    responseJson = FlickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!
                     
                     // Parse JSON Dictionary, and store: id, secret, farm, server for each photo
                     photoInfo.originalFormat = (responseJson["photo"] as? NSDictionary)?.value(forKey: "originalformat") as? String;
@@ -124,7 +124,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
 //        var photoURL:URL?;
 //        
 //        // prepare API methode for http request execution
-//        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGeneratePhotoThumbnailWithURLRequest(photoTag: photoTag);
+//        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGeneratePhotoThumbnailWithURLRequest(photoTag: photoTag);
 //        
 //        
 //    }
@@ -138,7 +138,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
 //        //for photoContext in photoContextArray {
 //        for i in 0..<(photoContextArray.count-1) {
 //            // prepare API methode for http request execution
-//            let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGeneratePhotoSizesRequest(photoId: photoContextArray[i].id)
+//            let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGeneratePhotoSizesRequest(photoId: photoContextArray[i].id)
 //            
 //            super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
 //                DispatchQueue.main.sync {
@@ -148,7 +148,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
 //                        print(responseString!);
 //                        
 //                        // Parse response JSON data, check for status
-//                        responseJson = flickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!
+//                        responseJson = FlickrHelperMethodes.flickrGetJSONDictionary(data: flickrResponse.responseData!)!
 //                        
 //                        let photoSizes:NSArray = ((responseJson["sizes"] as? NSDictionary)?.value(forKey: "size") as? NSArray)!;
 //                        for sizeInfo in photoSizes {
@@ -186,7 +186,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
     
     func flickrDownloadPhotoFromURL(photoURL: URL, completionHandler: @escaping (AsyncResult<Data>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = flickrHelperMethodes.flickrGenerateDownloadPhotoURLRequest(photoURL: photoURL);
+        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateDownloadPhotoURLRequest(photoURL: photoURL);
         super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
             
             DispatchQueue.main.async {
@@ -217,7 +217,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
     
     func flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Data>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest =  flickrHelperMethodes.flickrGenerateDownloadPhotoFromPhotoContextURLRequest(photoContext: photoContext);
+        let apiRequest:flickrAPIRequest =  FlickrHelperMethodes.flickrGenerateDownloadPhotoFromPhotoContextURLRequest(photoContext: photoContext);
         super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
             
             DispatchQueue.main.async {

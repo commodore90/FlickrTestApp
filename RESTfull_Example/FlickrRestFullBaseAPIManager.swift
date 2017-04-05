@@ -28,8 +28,8 @@ class FlickrRestFullBaseAPIManager {
         var urlString:String = "";
         var i:Int = 0;
         
-        urlComponent.scheme      = flickrConstants.kBaseHostURLScheme;
-        urlComponent.host        = apiRequest.host; // flickrConstants.kBaseHostURL;
+        urlComponent.scheme      = FlickrConstants.kBaseHostURLScheme;
+        urlComponent.host        = apiRequest.host; // FlickrConstants.kBaseHostURL;
         urlComponent.path        = apiRequest.path;
         
         urlString += String((urlComponent.url?.absoluteString)!) + "?";
@@ -101,7 +101,7 @@ class FlickrRestFullBaseAPIManager {
             let statusCode = (response as! HTTPURLResponse).statusCode;
             
             // check if responce is in JSON or TEXT format
-            if (responceString?.range(of: flickrConstants.kFlickrJSONmark) != nil) {
+            if (responceString?.range(of: FlickrConstants.kFlickrJSONmark) != nil) {
                 
                 if let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.JSON, responseError: error, responseData: responseData, responseCode: statusCode) {
                         completionHandler(AsyncResult.Success(flickrResponse));

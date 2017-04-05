@@ -18,9 +18,9 @@ final class FlickrSessionAuthorization {
     static let sharedInstance: FlickrSessionAuthorization = FlickrSessionAuthorization()
     
     //MARK: Local Variable
-    var requestToken:flickrRequestToken?;
-    var accessToken:flickrAccessToken?;
-    var userAuthorization:flickrUserAuthorization?;
+    var requestToken:FlickrRequestToken?;
+    var accessToken:FlickrAccessToken?;
+    var userAuthorization:FlickrUserAuthorization?;
     // var oauthSignature:String?;
     
     private init() {
@@ -28,42 +28,31 @@ final class FlickrSessionAuthorization {
     }
     
     // setters
-    func setRequestToken(requestToken:flickrRequestToken) {
+    func setRequestToken(requestToken:FlickrRequestToken) {
         self.requestToken = requestToken;
     }
     
-    func setAccessToken(accessToken:flickrAccessToken) {
+    func setAccessToken(accessToken:FlickrAccessToken) {
         self.accessToken = accessToken;
     }
     
-    func setUserAuthorizatrion(userAuthorization:flickrUserAuthorization) {
+    func setUserAuthorizatrion(userAuthorization:FlickrUserAuthorization) {
         self.userAuthorization = userAuthorization;
     }
     
-//    func setOauthSignature(oauthSignature:String) {
-//        self.oauthSignature = oauthSignature;
-//    }
-    
     // getters
-    func getRequestToken() -> flickrRequestToken {
+    func getRequestToken() -> FlickrRequestToken {
         return self.requestToken!;
     }
     
-    func getAccessToken() -> flickrAccessToken {
+    func getAccessToken() -> FlickrAccessToken {
         return self.accessToken!;
     }
     
-    func getUserAuthorization() -> flickrUserAuthorization {
+    func getUserAuthorization() -> FlickrUserAuthorization {
         return self.userAuthorization!;
     }
     
-//    func getOauthSignature() -> String {
-//        return self.oauthSignature!;
-//    }
-    
-//    static func getSharedRequestToken() -> flickrRequestToken{
-//        return self.sharedInstance.requestToken!;
-//    }
     
 }
 

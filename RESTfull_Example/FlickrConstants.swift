@@ -1,5 +1,5 @@
 //
-//  flickrConstants.swift
+//  FlickrConstants.swift
 //  RESTfull_Example
 //
 //  Created by Stefan Miskovic on 2/28/17.
@@ -9,11 +9,11 @@
 import Foundation
 
 
-struct flickrConstants {
+struct FlickrConstants {
     // oAuth Constants
     static let kOauthVersion:String         = "1.0";
     static let kOauthSignatureMethod:String = "HMAC-SHA1";
-    static let kOauthCallback:String        = "https://www.stefantestapp.rs"; // www.stefantestapp.rs
+    static let kOauthCallback:String        = "https://www.stefantestapp.rs";
     static let kOauthCallbackConfirmed      = "oauth_callback_confirmed";
     static let kOauthTokenSecret            = "oauth_token_secret";
     static let kOauthToken                  = "oauth_token";

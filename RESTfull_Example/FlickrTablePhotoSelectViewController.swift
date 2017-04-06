@@ -114,6 +114,12 @@ class FlickrTablePhotoSelectViewController: UITableViewController, FlickrTablePh
         // print("scrool")
     }
     
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // self.flickrRefreshPhotoTable();
+    }
+    
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

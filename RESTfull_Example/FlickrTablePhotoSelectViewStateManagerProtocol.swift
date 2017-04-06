@@ -21,9 +21,6 @@ protocol FlickrTablePhotoSelectViewStateManagerProtocol:class {
     */
     
     func getPhotosContextArrayForKind(completionHandler: @escaping (AsyncResult<Bool>) -> ());
-    func getPhotosThumbnailArray();
-    func getPhotosInfo();
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell;
 }

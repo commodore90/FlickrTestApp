@@ -19,6 +19,7 @@ class TablePhotoBaseStateManager : FlickrTablePhotoSelectViewStateManagerProtoco
     //MARK: Local variables
     var tablePhotoKind:String?; // used as search criterium
     var photoContextArray:[flickrPhotoContext]?;
+    var photoCache:NSCache<AnyObject, AnyObject> = NSCache();
     
     //MARK: Flickr Photo API instance
     let flickrPhotoAPI: FlickrPhotoAPI = FlickrPhotoAPI.init();
@@ -59,31 +60,27 @@ class TablePhotoBaseStateManager : FlickrTablePhotoSelectViewStateManagerProtoco
         }
     }
     
+     // Get Thumbnails for searched photo
     func getThumbnailPhoto(photoRowIndx:Int, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
-        // Get Thumbnails for searched photos
         self.flickrPhotoAPI.flickrDownloadPhotoFromURL(photoURL: self.photoContextArray![photoRowIndx].thumbURL!) { (flickrAPIResponse) in
-            
-        switch flickrAPIResponse {
-            case .Success(let thumbPhoto):
-                self.photoContextArray![photoRowIndx].thumbPhoto = UIImage(data: thumbPhoto);
-                
-                // fire completionHandler cloasure callback
-                //if (i == (self.photoContextArray?.count)!-1) {
+            switch flickrAPIResponse {
+                case .Success(let thumbPhoto):
+                    
+                    self.photoContextArray![photoRowIndx].thumbPhoto = UIImage(data: thumbPhoto);
+                    
+                    // fire completionHandler cloasure callback
                     print("Photo ad index: \(photoRowIndx) Downloaded!");
                     completionHandler(AsyncResult.Success(true));
-                //}
-                break;
-            case .Failure(let photoThumbnailsError):
-                print("Error while getting Photo Thumbnails: \(photoThumbnailsError)");
+                    break;
                 
-                // fire completionHandler cloasure callback
-                completionHandler(AsyncResult.Failure(photoThumbnailsError));
-                break;
+                case .Failure(let photoThumbnailsError):
+                    print("Error while getting Photo Thumbnails: \(photoThumbnailsError)");
+                    // fire completionHandler cloasure callback
+                    completionHandler(AsyncResult.Failure(photoThumbnailsError));
+                    break;
             }
         }
-        
     }
-    
     
     // get all photo contexts for Photo kind
     func getPhotosContextArrayForKind(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
@@ -91,32 +88,20 @@ class TablePhotoBaseStateManager : FlickrTablePhotoSelectViewStateManagerProtoco
         // Search for Photos using tag:
         flickrPhotoAPI.flickrPhotosSearchByTag(photoTag: self.tablePhotoKind!) { (flickrPhotosSearchByTagRsp) in
             switch flickrPhotosSearchByTagRsp {
-            case .Success(let photoContextArrayRsp):
-                self.photoContextArray = photoContextArrayRsp;
-                completionHandler(AsyncResult.Success(true));
-                
-//                // present Photos and info data in cell using TablePhotoView Delegate
-//                self.tablePhotoSelectViewDelegate?.flickrRefreshPhotoTable();
-                
-                break;
-            case .Failure(let photoSearchError):
-                print("Photo Search Error: \(photoSearchError)");
-                completionHandler(AsyncResult.Failure(photoSearchError));
-                self.photoContextArray = [];
-                break;
+                case .Success(let photoContextArrayRsp):
+                    
+                    self.photoContextArray = photoContextArrayRsp;
+                    completionHandler(AsyncResult.Success(true));
+                    break;
+                    
+                case .Failure(let photoSearchError):
+                    
+                    print("Photo Search Error: \(photoSearchError)");
+                    completionHandler(AsyncResult.Failure(photoSearchError));
+                    self.photoContextArray = [];
+                    break;
             }
         }
-    }
-    
-        
-    // get thumbnail photos
-    func getPhotosThumbnailArray() {
-        
-    }
-    
-    // get photos info
-    func getPhotosInfo() {
-        
     }
     
     // populate table view using table view delegate methodes
@@ -130,42 +115,72 @@ class TablePhotoBaseStateManager : FlickrTablePhotoSelectViewStateManagerProtoco
             fatalError("The dequeued cell is not an instance of FlickrTablePhotoSelectViewCell.");
         }
         
-        // iterate over data and map data to cell 
+        // identify cell by row
+        cell.tag = indexPath.row;
+
         // check if data is nil, and if yes, download Thumbnail image
+        if (self.photoCache.object(forKey: (indexPath as IndexPath).row as AnyObject) != nil){
+            print("Cached image at index:\(indexPath.row) used, no Download request fired")
+            // cell.photoThumbnail?.image = self.photoCache.object(forKey: (indexPath as IndexPath).row as AnyObject) as? UIImage;
+            let cachedPhotoContext:flickrPhotoContext = (self.photoCache.object(forKey: (indexPath as IndexPath).row as AnyObject) as? flickrPhotoContext)!; // as? UIImage;
+            
+            cell.photoThumbnail?.image = cachedPhotoContext.thumbPhoto;
+            
+            setCellLabels(cellToSet: cell, photoContext: cachedPhotoContext);
+            
+            cell.photoContext = cachedPhotoContext;
+        }
         
-        if self.photoContextArray?[indexPath.row].thumbPhoto == nil {
+        else {
+            flickrCellData = self.photoContextArray?[indexPath.row];
             
-            
+            setCellLabels(cellToSet: cell, photoContext: flickrCellData!);
+
             // download Thumbnail for indexPath:
-            self.getThumbnailPhoto(photoRowIndx: indexPath.row) { (flickrThumbnailPhotoDownloadRsp) in
+            DispatchQueue.global().async {
                 
-                switch (flickrThumbnailPhotoDownloadRsp) {
-                case .Success(_):
+                self.getThumbnailPhoto(photoRowIndx: indexPath.row) { (flickrThumbnailPhotoDownloadRsp) in
                     
-                    flickrCellData = self.photoContextArray?[indexPath.row];
-                    
-                    cell.photoTitle.text      = flickrCellData?.photoInfo?.title;
-                    cell.photoFormat.text     = flickrCellData?.photoInfo?.originalFormat;
-                    cell.photoDateTaken.text  = flickrCellData?.photoInfo?.dateTaken;
-                    cell.photoResolution.text = " "; // flickrCellData?.photoInfo?.resolution;
-                    
-                    // set thumbnail photo
-                    cell.photoThumbnail.image = flickrCellData?.thumbPhoto;
-                    
-                    // set photo context
-                    cell.photoContext = flickrCellData!;
-                    
-                    print("Thumbnail photo downloaded!");
-                    break;
-                    
-                case .Failure(let thumbnailDownloadError):
-                    print("Thumbnail photo Download Error: \(thumbnailDownloadError)");
-                    break;
+                    switch (flickrThumbnailPhotoDownloadRsp) {
+                    case .Success(_):
+                        DispatchQueue.main.async {
+                            // Before assign the image, check whether the current cell is visible
+                            if let updateCell:FlickrTablePhotoSelectViewCell = tableView.cellForRow(at: indexPath) as! FlickrTablePhotoSelectViewCell? {
+                                let cellImage:UIImage! = flickrCellData?.thumbPhoto;
+                                
+                                if (cell.tag == indexPath.row) {
+                                    updateCell.photoThumbnail.image = nil;
+                                    updateCell.photoThumbnail.image = cellImage;
+                                    updateCell.photoContext = flickrCellData!;
+                                    updateCell.setNeedsLayout();
+                                    // cache image for reuse without download
+                                    self.photoCache.setObject(flickrCellData!, forKey: (indexPath as IndexPath).row as AnyObject)
+                                    
+                                }
+                            }
+                        }
+
+                        print("Thumbnail photo downloaded!");
+                        break;
+                        
+                    case .Failure(let thumbnailDownloadError):
+                        print("Thumbnail photo Download Error: \(thumbnailDownloadError)");
+                        break;
+                    }
                 }
             }
         }
         return cell;
      
     }
-    
+
+    /*
+     Internal Methodes
+     */
+    func setCellLabels(cellToSet: FlickrTablePhotoSelectViewCell, photoContext: flickrPhotoContext) {
+        cellToSet.photoTitle.text = photoContext.photoInfo?.title;
+        cellToSet.photoFormat.text = photoContext.photoInfo?.originalFormat;
+        cellToSet.photoDateTaken.text = photoContext.photoInfo?.dateTaken;
+        cellToSet.photoResolution.text = ""; // photoContext.
+    }
 }

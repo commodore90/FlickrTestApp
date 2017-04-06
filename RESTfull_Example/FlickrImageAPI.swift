@@ -189,7 +189,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
         let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateDownloadPhotoURLRequest(photoURL: photoURL);
         super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
             
-            DispatchQueue.main.async {
+//
                 switch flickrAPIResponse {
                 case .Success(let flickrResponse):
                     if flickrResponse.responseData != nil {
@@ -199,8 +199,9 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
                         print("Error, downloaded image is nil!");
                     }
 
-                    
-                    completionHandler(AsyncResult.Success(flickrResponse.responseData!));
+                    DispatchQueue.main.async {
+                        completionHandler(AsyncResult.Success(flickrResponse.responseData!));
+                    }
                     break;
                     
                 case .Failure(let flickrResponseError):
@@ -209,7 +210,7 @@ class FlickrPhotoAPI : FlickrRestFullBaseAPIManager{
                     completionHandler(AsyncResult.Failure(flickrResponseError));
                     break;
                 }
-            }
+//            }
         }
         
     }

@@ -28,12 +28,6 @@ class FlickrLoggingTestAPI : FlickrRestFullBaseAPIManager{
                     responseString = String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!;
                     print("Response Data : " + responseString!);
                     
-                    // parse output data if json or string if text and if some of known flickr errors are present -> set error in .Failure block
-                
-                    // Parse response JSON data
-                    // var parserKeys:[String] = ["user", "stat"]
-                    // responseJson = FlickrHelperMethodes.flickrJSONParser(data: flickrResponse.responseData!)!
-                    
                     oauthCompletion = true;
                     completionHandler(AsyncResult.Success(oauthCompletion));
                     break;

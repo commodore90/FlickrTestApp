@@ -152,13 +152,13 @@ class FlickrAccessToken {
 }
 
 class FlickrUserAuthorization {
-    var oauthVerifier:String;
+    var oauthVerifier:String?;
     
     init() {
         self.oauthVerifier = "";
     }
     
-    init (oauthVerifier:String) {
+    init (oauthVerifier:String?) {
         if let oauthVerifier:String = oauthVerifier {
             self.oauthVerifier = oauthVerifier;
         }
@@ -169,12 +169,11 @@ class FlickrUserAuthorization {
     }
 }
 
-
 /* 
      Flickr HTTP API clsses
 */
 
-class flickrAPIRequest {
+class FflickrAPIRequest {
     var httpMethod:RequestMethod;
     var host:String
     var path:String;                         // full URL path, without query params
@@ -192,21 +191,23 @@ class flickrAPIRequest {
     }
 }
 
-class flickrAPIResponse {
-    var responseFormat:ResponseFormat;
+class FlickrAPIResponse {
+    var responseFormat:ResponseFormat?;
     var responseError:Error?;
     var responseData:Data?;
     var responseCode:Int?;
+    var responseRequestURL:URL?
     
-    init(responseFormat:ResponseFormat, responseError:Error?, responseData:Data?, responseCode:Int?) {
-        self.responseFormat = responseFormat;
-        self.responseError  = responseError;
-        self.responseData   = responseData;
-        self.responseCode   = responseCode;
+    init(responseFormat:ResponseFormat?, responseError:Error?, responseData:Data?, responseCode:Int?, responseRequestURL:URL?) {
+        self.responseFormat     = responseFormat;
+        self.responseError      = responseError;
+        self.responseData       = responseData;
+        self.responseCode       = responseCode;
+        self.responseRequestURL = responseRequestURL;
     }
 }
 
-extension flickrAPIRequest {
+extension FflickrAPIRequest {
     func getURL() -> URL {
         let requestURL:NSURLComponents = NSURLComponents.init();
         
@@ -223,7 +224,7 @@ extension flickrAPIRequest {
     Flickr Photo API
 */
 
-class flickrPhotoContext {
+class FlickrPhotoContext {
     var id:String;
     var secret:String;
     var server:String;
@@ -231,7 +232,7 @@ class flickrPhotoContext {
     
     var thumbURL:URL?;
     var thumbPhoto:UIImage?;   // Data
-    var photoInfo:flickrPhotoInfo?;
+    var photoInfo:FlickrPhotoInfo?;
     
     init() {
         self.id     = "";
@@ -240,14 +241,14 @@ class flickrPhotoContext {
         self.farm   = "";
     }
     
-    init (id:String, secret:String, server:String, farm:String, thumbURL:URL, photoInfo: flickrPhotoInfo) {
+    init (id:String, secret:String, server:String, farm:String, thumbURL:URL, photoInfo: FlickrPhotoInfo) {
         self.id        = id;
         self.secret    = secret;
         self.server    = server;
         self.farm      = farm;
         self.thumbURL  = thumbURL;
         
-        let photoInfo = flickrPhotoInfo.init(
+        let photoInfo = FlickrPhotoInfo.init(
             originalFormat: photoInfo.originalFormat!,
             title:          photoInfo.dateTaken!,
             dateTaken:      photoInfo.title!
@@ -258,7 +259,7 @@ class flickrPhotoContext {
 
 }
 
-class flickrPhotoInfo {
+class FlickrPhotoInfo {
     var originalFormat:String?;
     var title:String?;
     var dateTaken:String?;

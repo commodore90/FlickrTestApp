@@ -9,6 +9,7 @@
 import Foundation
 
 protocol FlickrPhotoSelectViewReturnProtocol {
-    func requestLoadingSpinerStop();
     
+    // Stop spinner indicator
+    func requestLoadingSpinerStop();
 }

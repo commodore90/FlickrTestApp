@@ -30,7 +30,7 @@ class FlickrUserAuthenticationViewController: UIViewController, UIWebViewDelegat
         
         // prepare User Authorization URL
         let requestToken:FlickrRequestToken = FlickrSessionAuthorization.sharedInstance.getRequestToken();
-        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateUserAuthorizationRequest(requestToken: requestToken);
+        let apiRequest:FflickrAPIRequest = FlickrHelperMethodes.flickrGenerateUserAuthorizationRequest(requestToken: requestToken);
         
         let requestURL:URL     = apiRequest.getURL();
         let request:URLRequest = URLRequest(url: requestURL);

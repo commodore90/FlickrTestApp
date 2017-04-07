@@ -14,13 +14,12 @@ protocol FlickrTablePhotoSelectViewStateManagerProtocol:class {
      Declare required interface variables
      */
     var tablePhotoSelectViewDelegate:FlickrTablePhotoSelectViewProtocol? {get set};
-    var photoContextArray:[flickrPhotoContext]? {get set};
+    var photoContextArray:[FlickrPhotoContext]? {get set};
     
     /*
      Declare required interface methodes
     */
     
     func getPhotosContextArrayForKind(completionHandler: @escaping (AsyncResult<Bool>) -> ());
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell;
 }

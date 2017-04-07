@@ -26,45 +26,6 @@ extension String {
 }
 
 class FlickrHelperMethodes {
-    
-    // recursive methode for extracting all json key/value pairs
-    static private func collectAllStructuresFromJSON(inputStructure:Any, key:String?) -> [Any]? {
-        var structureKey   :String?
-        var subStructureKey:String?
-        
-        struct parsedArray {
-            static var array:[Any]?
-        }
-        
-        // 1. try to cast sub-structure to Dictionary, if nil try to cast to Array
-        if let tempDict = inputStructure as? NSDictionary {
-            for (key, value) in tempDict {
-                structureKey = key as? String;
-                collectAllStructuresFromJSON(inputStructure: value, key: key as? String);
-                print("Only Sub-Dictionary Keys: \(structureKey)");
-            }
-            // here, algorithm stoped at bottom of leaf
-            print("Extracted Dictionary for Key: \(structureKey):  \(tempDict)");
-        }
-        // 2. if cast to Dictionary failed, sub-structure may be array of [key, value] pairs
-        else if let tempArray = inputStructure as? NSArray {
-            for value in tempArray {
-                subStructureKey = structureKey;
-                collectAllStructuresFromJSON(inputStructure: value, key: nil);
-            }
-            // store this array if needed
-            print("Extracted Array for Key: \(key) \(tempArray)")
-            
-            // get values for keys : (tempArray[0] as? NSDictionary)?.value(forKey: "title") as? String
-        }
-        else {
-            // here, can extract all [key, value] pairs, undependently
-            //print("Extracted Key: \(key) with Value: \(inputStructure)");
-        }
-     
-        return parsedArray.array!;
-    }
-    
     /*
         JSON parser of data returned by http API methodes
      */
@@ -249,7 +210,7 @@ class FlickrHelperMethodes {
     
     
     // Generate Request Token complete api Request
-    static func flickrGenerateRequestTokenRequest() -> flickrAPIRequest {
+    static func flickrGenerateRequestTokenRequest() -> FflickrAPIRequest {
         // Generate valid Lexicographicaly value sorted Request Token URL
         let requestTokenURL:URL = flickrGetRequestTokenBaseURL(); // (NSURLComponents)
         var requestTokenURLWithQueryParams:NSURLComponents = NSURLComponents.init();
@@ -266,7 +227,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kBaseHostURL,
             path: String(FlickrConstants.kOauthServiceURL + FlickrConstants.kGetRequestTokenURL),
@@ -278,7 +239,7 @@ class FlickrHelperMethodes {
     }
     
     // Generate User Authorization Verifier
-    static func flickrGenerateUserAuthorizationRequest(requestToken:FlickrRequestToken) -> flickrAPIRequest {
+    static func flickrGenerateUserAuthorizationRequest(requestToken:FlickrRequestToken) -> FflickrAPIRequest {
         let userAuthorizationURL:URL = flickrGetAuthorizationBaseURL();
         let userAuthorizationURLWithQueryParams:NSURLComponents = NSURLComponents();
         var authorizationQueryArray:[URLQueryItem] = [];
@@ -291,7 +252,7 @@ class FlickrHelperMethodes {
         userAuthorizationURLWithQueryParams.queryItems = authorizationQueryArray;
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kBaseHostURL,
             path: String(FlickrConstants.kOauthServiceURL + FlickrConstants.kGetUserAuthorization),
@@ -304,7 +265,7 @@ class FlickrHelperMethodes {
     }
     
     // Generate Access Token complete api Request
-    static func flickrGenerateAccessTokenRequest(requestToken:FlickrRequestToken, userAuthorization:FlickrUserAuthorization) -> flickrAPIRequest {
+    static func flickrGenerateAccessTokenRequest(requestToken:FlickrRequestToken, userAuthorization:FlickrUserAuthorization) -> FflickrAPIRequest {
         
         let accessTokenURL:URL = flickrGetAccessTokenBaseURL();
         var accessTokenURLWithQueryParams:NSURLComponents = NSURLComponents();
@@ -317,7 +278,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host:  FlickrConstants.kBaseHostURL,
             path: String(FlickrConstants.kOauthServiceURL + FlickrConstants.kGetAccessToken),
@@ -333,7 +294,7 @@ class FlickrHelperMethodes {
         Generate Image API request
     */
     
-    static func fickrGenerateLoginTestRequest() -> flickrAPIRequest {
+    static func fickrGenerateLoginTestRequest() -> FflickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
         var loginURLWithQueryParams:NSURLComponents = NSURLComponents.init();
         let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
@@ -345,7 +306,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kflickrAPIHost,
             path: flickrAPIsrvice.path,
@@ -358,7 +319,7 @@ class FlickrHelperMethodes {
     }
     
     // Flickr Photo API
-    static func fickrGeneratePhotosSearchRequest(photoTag:String) -> flickrAPIRequest {
+    static func fickrGeneratePhotosSearchRequest(photoTag:String) -> FflickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
         var searchURLWithQueryParams:NSURLComponents = NSURLComponents.init();
         let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
@@ -371,7 +332,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kflickrAPIHost,
             path: flickrAPIsrvice.path,
@@ -383,12 +344,12 @@ class FlickrHelperMethodes {
         return apiRequest
     }
     
-    static func flickrGenerateDownloadPhotoFromPhotoContextURLRequest(photoContext: flickrPhotoContext) -> flickrAPIRequest {
+    static func flickrGenerateDownloadPhotoFromPhotoContextURLRequest(photoContext: FlickrPhotoContext) -> FflickrAPIRequest {
         let flickrStaticPhotoDownloadURLHost:String = "farm" + photoContext.farm + ".staticflickr.com";
         let flickrStaticPhotoDownloadURLPath:String = "/" + photoContext.server + "/" + photoContext.id + "_" + photoContext.secret + ".jpg";   // format info should be provided externaly!
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: flickrStaticPhotoDownloadURLHost,
             path: flickrStaticPhotoDownloadURLPath,
@@ -400,11 +361,11 @@ class FlickrHelperMethodes {
         return apiRequest;
     }
     
-    static func flickrGenerateDownloadPhotoURLRequest(photoURL:URL) -> flickrAPIRequest {
+    static func flickrGenerateDownloadPhotoURLRequest(photoURL:URL) -> FflickrAPIRequest {
         let flickrStaticPhotoDownloadURL:URL = photoURL;
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: flickrStaticPhotoDownloadURL.host!,
             path: flickrStaticPhotoDownloadURL.path,
@@ -416,7 +377,7 @@ class FlickrHelperMethodes {
         return apiRequest;
     }
     
-    static func flickrGeneratePhotoInfoRequest(photoId: String) -> flickrAPIRequest {
+    static func flickrGeneratePhotoInfoRequest(photoId: String) -> FflickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
         var getInfoURLWithQueryParams:NSURLComponents = NSURLComponents.init();
         let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
@@ -428,7 +389,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kflickrAPIHost,
             path: flickrAPIsrvice.path,
@@ -440,7 +401,7 @@ class FlickrHelperMethodes {
         return apiRequest;
     }
     
-    static func flickrGeneratePhotoSizesRequest(photoId:String) -> flickrAPIRequest {
+    static func flickrGeneratePhotoSizesRequest(photoId:String) -> FflickrAPIRequest {
         let flickrAPIsrvice:URL = flickrGenerateAPIBaseURL();
         var getInfoURLWithQueryParams:NSURLComponents = NSURLComponents.init();
         let accessTokenString:String = FlickrSessionAuthorization.sharedInstance.getAccessToken().accessToken;
@@ -452,7 +413,7 @@ class FlickrHelperMethodes {
         );
         
         
-        let apiRequest:flickrAPIRequest = flickrAPIRequest.init(
+        let apiRequest:FflickrAPIRequest = FflickrAPIRequest.init(
             httpMethod: RequestMethod.GET,
             host: FlickrConstants.kflickrAPIHost,
             path: flickrAPIsrvice.path,

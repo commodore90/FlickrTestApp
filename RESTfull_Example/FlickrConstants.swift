@@ -43,10 +43,10 @@ struct FlickrConstants {
     static let kFlickrJSONmark:String       = "jsonFlickrApi";
     
     // Consumer Secret : $params['api_key'] . '&' . $params['secret'];
-    static let kInputConsumerSecret:String  = "";
+    // static let kInputConsumerSecret:String  = "";
     
     // 
-    static let kInputTokenSecret:String     = "";
+    // static let kInputTokenSecret:String     = "";
     
     
     

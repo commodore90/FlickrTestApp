@@ -14,16 +14,14 @@ class FlickrLoggingTestAPI : FlickrRestFullBaseAPIManager{
     
     func flickrLoginTest(completionHandler: @escaping (AsyncResult<Bool>) -> ()) { // accessToken: FlickrAccessToken, 
 
-        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.fickrGenerateLoginTestRequest();
-        // var flickrLoginResponse:flickrResponseDictionary = flickrResponseDictionary.init();
+        let apiRequest:FflickrAPIRequest = FlickrHelperMethodes.fickrGenerateLoginTestRequest();
         var responseString:String?;
         var oauthCompletion:Bool = false;
-        // var responseJson = [String:String]();
         
-        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
+        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (FlickrAPIResponse) in
             
             DispatchQueue.main.async {
-                switch flickrAPIResponse {
+                switch FlickrAPIResponse {
                 case .Success(let flickrResponse):
                     responseString = String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!;
                     print("Response Data : " + responseString!);

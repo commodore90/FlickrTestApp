@@ -21,9 +21,9 @@ class FlickrRestFullBaseAPIManager {
     }
     
     /*
-        Crate Request URL from flickrAPIRequest
+        Crate Request URL from FflickrAPIRequest
      */
-    private func createRequestURLfromFlickrAPIRequest(apiRequest:flickrAPIRequest) -> URL {         // this should be URL extension method
+    private func createRequestURLfromFlickrAPIRequest(apiRequest:FflickrAPIRequest) -> URL {         // this should be URL extension method
         var urlComponent:URLComponents = URLComponents.init();
         var urlString:String = "";
         var i:Int = 0;
@@ -54,11 +54,14 @@ class FlickrRestFullBaseAPIManager {
     }
     
     /*
-        Fire Unauthorised http API call using flickrAPIRequest.
+        Fire Unauthorised http API call using FflickrAPIRequest.
         Return Response using completionHandler closure
      */
-    func flickrMakeUnauthorizedApiCallWithRequest(apiRequest:flickrAPIRequest, completionHandler: @escaping (AsyncResult<flickrAPIResponse>) -> ()) {
+    func flickrMakeUnauthorizedApiCallWithRequest(apiRequest:FflickrAPIRequest, completionHandler: @escaping (AsyncResult<FlickrAPIResponse>) -> ()) {
         let config = URLSessionConfiguration.default;
+        // let cache: URLCache = URLCache.init(memoryCapacity: 200 * 1024 * 1024, diskCapacity: 400 * 1024 * 1024, diskPath: nil)
+        // URLCache.shared = cache
+        // config.urlCache = cache
         // config.timeoutIntervalForResource = 2.0;
         let session = URLSession(configuration: config);
         let request:NSMutableURLRequest = NSMutableURLRequest.init(); // = NSMutableURLRequest(url: callbackURL);
@@ -103,30 +106,33 @@ class FlickrRestFullBaseAPIManager {
             // check if responce is in JSON or TEXT format
             if (responceString?.range(of: FlickrConstants.kFlickrJSONmark) != nil) {
                 
-                if let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.JSON, responseError: error, responseData: responseData, responseCode: statusCode) {
-                        completionHandler(AsyncResult.Success(flickrResponse));
-                }
-                else {
-                    // let error:Error = Error(.badResponse);
-                    // completionHandler(AsyncResult.Failure(error))
-                }
+                let flickrResponse:FlickrAPIResponse = FlickrAPIResponse(
+                    responseFormat: ResponseFormat.JSON,
+                    responseError: error,
+                    responseData: responseData,
+                    responseCode: statusCode,
+                    responseRequestURL: response?.url
+                );
+                completionHandler(AsyncResult.Success(flickrResponse));
             }
             else {
-                let flickrResponse: flickrAPIResponse = flickrAPIResponse(responseFormat: ResponseFormat.TEXT, responseError: error, responseData: responseData, responseCode: statusCode);
+                let flickrResponse: FlickrAPIResponse = FlickrAPIResponse(
+                    responseFormat: ResponseFormat.TEXT,
+                    responseError: error,
+                    responseData: responseData,
+                    responseCode: statusCode,
+                    responseRequestURL: response?.url
+                );
                 completionHandler(AsyncResult.Success(flickrResponse));
             }
             
-            DispatchQueue.main.async {
-                //Update UI
-            }
         }
         task.resume()
-        
-        // return task;
+    
     }
     
     /*
-        Fire Authorised http API call using flickrAPIRequest.
+        Fire Authorised http API call using FflickrAPIRequest.
         Return Response using completionHandler closure
      */
     func flickrMakeAuthorizedApiCallWithRequest() {

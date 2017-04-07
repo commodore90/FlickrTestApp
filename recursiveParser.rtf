@@ -1,0 +1,47 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red65\green182\blue69;\red178\green24\blue137;
+\red0\green160\blue190;\red131\green192\blue87;\red219\green44\blue56;}
+{\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c25500\c71400\c27000;\csgenericrgb\c69800\c9500\c53600;
+\csgenericrgb\c0\c62600\c74600;\csgenericrgb\c51200\c75400\c34300;\csgenericrgb\c85900\c17100\c21900;}
+\margl1440\margr1440\vieww22540\viewh16560\viewkind0
+\deftab543
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0     \cf3 // recursive methode for extracting all json key/value pairs\
+\cf2     \cf4 static\cf2  \cf4 private\cf2  \cf4 func\cf2  collectAllStructuresFromJSON(inputStructure:\cf4 Any\cf2 , key:\cf5 String\cf2 ?) -> [\cf4 Any\cf2 ]? \{\
+        \cf4 var\cf2  structureKey   :\cf5 String\cf2 ?\
+        \cf4 var\cf2  subStructureKey:\cf5 String\cf2 ?\
+        \
+        \cf4 struct\cf2  parsedArray \{\
+            \cf4 static\cf2  \cf4 var\cf2  array:[\cf4 Any\cf2 ]?\
+        \}\
+        \
+        \cf3 // 1. try to cast sub-structure to Dictionary, if nil try to cast to Array\
+\cf2         \cf4 if\cf2  \cf4 let\cf2  tempDict = inputStructure \cf4 as\cf2 ? \cf5 NSDictionary\cf2  \{\
+            \cf4 for\cf2  (key, value) \cf4 in\cf2  tempDict \{\
+                structureKey = key \cf4 as\cf2 ? \cf5 String\cf2 ;\
+                \cf6 collectAllStructuresFromJSON\cf2 (inputStructure: value, key: key \cf4 as\cf2 ? \cf5 String\cf2 );\
+                \cf5 print\cf2 (\cf7 "Only Sub-Dictionary Keys: \cf2 \\\cf7 (\cf2 structureKey\cf7 )"\cf2 );\
+            \}\
+            \cf3 // here, algorithm stoped at bottom of leaf\
+\cf2             \cf5 print\cf2 (\cf7 "Extracted Dictionary for Key: \cf2 \\\cf7 (\cf2 structureKey\cf7 ):  \cf2 \\\cf7 (\cf2 tempDict\cf7 )"\cf2 );\
+        \}\
+        \cf3 // 2. if cast to Dictionary failed, sub-structure may be array of [key, value] pairs\
+\cf2         \cf4 else\cf2  \cf4 if\cf2  \cf4 let\cf2  tempArray = inputStructure \cf4 as\cf2 ? \cf5 NSArray\cf2  \{\
+            \cf4 for\cf2  value \cf4 in\cf2  tempArray \{\
+                subStructureKey = structureKey;\
+                \cf6 collectAllStructuresFromJSON\cf2 (inputStructure: value, key: \cf4 nil\cf2 );\
+            \}\
+            \cf3 // store this array if needed\
+\cf2             \cf5 print\cf2 (\cf7 "Extracted Array for Key: \cf2 \\\cf7 (\cf2 key\cf7 ) \cf2 \\\cf7 (\cf2 tempArray\cf7 )"\cf2 )\
+            \
+            \cf3 // get values for keys : (tempArray[0] as? NSDictionary)?.value(forKey: "title") as? String\
+\cf2         \}\
+        \cf4 else\cf2  \{\
+            \cf3 // here, can extract all [key, value] pairs, undependently\
+\cf2             \cf3 //print("Extracted Key: \\(key) with Value: \\(inputStructure)");\
+\cf2         \}\
+     \
+        \cf4 return\cf2  \cf6 parsedArray\cf2 .\cf6 array\cf2 !;\
+    \}}

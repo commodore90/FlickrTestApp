@@ -10,10 +10,6 @@ import Foundation
 
 protocol FlickrTablePhotoSelectViewProtocol:class {
     
-    
-    // resfresh data in table
+    // Resfresh data in table
     func flickrRefreshPhotoTable();
-    
-    
-    
 }

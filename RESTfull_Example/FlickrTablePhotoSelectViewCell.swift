@@ -21,7 +21,7 @@ class FlickrTablePhotoSelectViewCell: UITableViewCell {
     
     @IBOutlet weak var photoThumbnail: UIImageView!
     
-    var photoContext:flickrPhotoContext?;
+    var photoContext:FlickrPhotoContext?;
     
     override func awakeFromNib() {
         super.awakeFromNib()

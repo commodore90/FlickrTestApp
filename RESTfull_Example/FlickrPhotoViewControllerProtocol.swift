@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-protocol FlickrPhotoViewControllerProtocol: class {
-    /*
-     Declare required interface variables
-     */
-    // weak var stateManagerDelegate:FlickrPhotoViewStateManagerProtocol? {get set}
-    
-    
-    /*
-     Declare required interface methodes
-     */
-    func showFlickrPhoto(photo: UIImage);
-}
+//protocol FlickrPhotoViewControllerProtocol: class {
+//    /*
+//     Declare required interface variables
+//     */
+//    // weak var stateManagerDelegate:FlickrPhotoViewStateManagerProtocol? {get set}
+//    
+//    
+//    /*
+//     Declare required interface methodes
+//     */
+//    func showFlickrPhoto(photo: UIImage);
+//}

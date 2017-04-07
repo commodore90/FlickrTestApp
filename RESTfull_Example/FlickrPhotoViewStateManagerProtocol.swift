@@ -9,20 +9,20 @@
 import Foundation
 
 
-protocol FlickrPhotoViewStateManagerProtocol: class {
-    /* 
-        Declare required interface variables
-     */
-    weak var photoViewDelegate:FlickrPhotoViewControllerProtocol? {get set}                            // this is going to be photoViewInstance
-    
-    
-    
-    /*
-        Declare required interface methodes
-    */
-    func testIfUserIsLoggedIn();
-    
-    func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ());
-    // func fetchCustomPhoto();
-
-}
+//protocol FlickrPhotoViewStateManagerProtocol: class {
+//    /* 
+//        Declare required interface variables
+//     */
+//    weak var photoViewDelegate:FlickrPhotoViewControllerProtocol? {get set}                            // this is going to be photoViewInstance
+//    
+//    
+//    
+//    /*
+//        Declare required interface methodes
+//    */
+//    func testIfUserIsLoggedIn();
+//    
+//    func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ());
+//    // func fetchCustomPhoto();
+//
+//}

@@ -19,17 +19,17 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
     */
     func getOAuthRequestToken(completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // -> FlickrRequestToken?
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateRequestTokenRequest();
+        let apiRequest:FflickrAPIRequest = FlickrHelperMethodes.flickrGenerateRequestTokenRequest();
         var requestTokenResponse:flickrResponseDictionary = flickrResponseDictionary.init();
         var responseString:String?;
         var requestToken:FlickrRequestToken?;
         var oauthCompletion:Bool = false;
         
         // call flickr API methode for initiating http request
-        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
+        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (FlickrAPIResponse) in
             
             DispatchQueue.main.async {
-                switch flickrAPIResponse {
+                switch FlickrAPIResponse {
                 case .Success(let flickrResponse):
                     print("completionHandler: getRequestToken response is returned to flickr restfull Flickr API!!!");
                     print("Response Data : " + String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!);
@@ -68,15 +68,15 @@ class flickrRestFullAPIManager : FlickrRestFullBaseAPIManager {
      */
     func getOAuthAccessToken(requestToken: FlickrRequestToken, userAuthorization:FlickrUserAuthorization, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {
         // prepare API methode for http request execution
-        let apiRequest:flickrAPIRequest = FlickrHelperMethodes.flickrGenerateAccessTokenRequest(requestToken: requestToken, userAuthorization: userAuthorization)
+        let apiRequest:FflickrAPIRequest = FlickrHelperMethodes.flickrGenerateAccessTokenRequest(requestToken: requestToken, userAuthorization: userAuthorization)
         var accessTokenResponse:flickrResponseDictionary = flickrResponseDictionary.init();
         var responseString:String?;
         var accessToken:FlickrAccessToken?;
         
-        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (flickrAPIResponse) in
+        super.flickrMakeUnauthorizedApiCallWithRequest(apiRequest: apiRequest) { (FlickrAPIResponse) in
             
             DispatchQueue.main.async {
-                switch flickrAPIResponse {
+                switch FlickrAPIResponse {
                 case .Success(let flickrResponse):
                     print("completionHandler: getAccessToken response is returned to flickr restfull Flickr API!!!");
                     print("Response Data : " + String(data: flickrResponse.responseData!, encoding: String.Encoding.utf8)!);

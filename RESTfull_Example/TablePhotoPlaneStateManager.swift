@@ -13,9 +13,4 @@ class TablePhotoPlaneStateManager : TablePhotoBaseStateManager {
     override init() {
         super.init(tablePhotoKind: "Plane");
     }
-    
-    func fetchItems() {
-        //
-    }
-    
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProtocol {
+class FlickrPhotoViewController: UIViewController { // , FlickrPhotoViewControllerProtocol
 
     @IBOutlet weak var flickrImageView: UIImageView!;
     @IBOutlet weak var flickrDownloadProgressSpinner: UIActivityIndicatorView!;
@@ -16,7 +16,7 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     /*
     Local Variables
     */
-    var photoContextToPresent: flickrPhotoContext?;
+    var photoContextToPresent: FlickrPhotoContext?;
     var loadingSpinner: FlickrProgressIndicator?;
     
     /*
@@ -28,7 +28,7 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     /* 
         Implement delegate properties and methode
     */
-    var stateManagerDelegate: FlickrPhotoViewStateManagerProtocol?;
+    // var stateManagerDelegate: FlickrPhotoViewStateManagerProtocol?;
     var photoSelectViewReturnDelegate: FlickrPhotoSelectViewReturnProtocol?;
     
     func showFlickrPhoto(photo: UIImage) {
@@ -45,10 +45,6 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     override func viewWillDisappear(_ animated : Bool) {    // TableViewController Back button pressed!
         super.viewWillDisappear(animated)
         
-//        if (self.isMovingFromParentViewController){
-//            // Your code...
-//        }
-        
         photoSelectViewReturnDelegate?.requestLoadingSpinerStop();
         
     }
@@ -58,18 +54,14 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Spinner
+        
         loadingSpinner = FlickrProgressIndicator.init(inview: self.view, loadingViewColor: UIColor.gray, indicatorColor: UIColor.red, msg: "Loading Photo");
         self.view.addSubview(loadingSpinner!)
-        
         self.loadingSpinner!.start();
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // set Photo View Delegate 
-        self.stateManagerDelegate?.photoViewDelegate = self;
         
         /*
          Format image View
@@ -88,18 +80,18 @@ class FlickrPhotoViewController: UIViewController, FlickrPhotoViewControllerProt
         
         self.fetchPhoto(photoContext: photoContextToPresent!) { (fetchPhotoRsp) in
             switch (fetchPhotoRsp) {
-            case .Success(let fetchPhotoComplete):
+            case .Success(_):
                 self.loadingSpinner!.stop();
                 break;
             case .Failure(let fetchPhotoError):
+                print("fetchPhoto Error \(fetchPhotoError)");
                 break;
             }
         }
-        
     }
     
-    func fetchPhoto(photoContext: flickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // added new argument, photo context
-        // var photoContext:flickrPhotoContext = flickrPhotoContext.init();
+    func fetchPhoto(photoContext: FlickrPhotoContext, completionHandler: @escaping (AsyncResult<Bool>) -> ()) {  // added new argument, photo context
+        // var photoContext:FlickrPhotoContext = FlickrPhotoContext.init();
         // var photoIterator:Int?;
         
         self.flickrPhotoAPI.flickrDownloadPhotoFromURLUsingPhotoContext(photoContext: photoContext) { (downloadPhoto) in

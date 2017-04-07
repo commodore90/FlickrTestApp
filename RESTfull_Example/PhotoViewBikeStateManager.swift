@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 class PhotoViewBikeStateManager: FlickrPhotoViewBaseStateManager {
-   
-    /*
-     Dependecy Injection
-     */
-    override init () {
-        super.init(photoTag: "Bike");
-    }
+//   
+//    /*
+//     Dependecy Injection
+//     */
+//    override init () {
+//        super.init(photoTag: "Bike");
+//    }
 }

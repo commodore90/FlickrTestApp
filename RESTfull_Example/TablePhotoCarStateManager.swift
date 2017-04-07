@@ -13,8 +13,4 @@ class TablePhotoCarStateManager : TablePhotoBaseStateManager {
     override init() {
         super.init(tablePhotoKind: "Car");
     }
-    
-    func fetchItems() {
-        //
-    }
 }

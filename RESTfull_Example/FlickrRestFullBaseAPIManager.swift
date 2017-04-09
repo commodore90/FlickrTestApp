@@ -131,12 +131,4 @@ class FlickrRestFullBaseAPIManager {
     
     }
     
-    /*
-        Fire Authorised http API call using FflickrAPIRequest.
-        Return Response using completionHandler closure
-     */
-    func flickrMakeAuthorizedApiCallWithRequest() {
-        
-    }
-    
 }
